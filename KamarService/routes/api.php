@@ -1,0 +1,15 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PenyewaanController;
+
+Route::prefix('penyewaans')->group(function () {
+    Route::get('/penyewa/{penyewa_id}', [PenyewaanController::class, 'getByPenyewa']);
+
+    Route::get('/', [PenyewaanController::class, 'index']);
+    Route::post('/', [PenyewaanController::class, 'store']);
+    Route::get('/{id}', [PenyewaanController::class, 'show']);
+    Route::put('/{id}', [PenyewaanController::class, 'update']);
+    Route::patch('/{id}', [PenyewaanController::class, 'update']);
+    Route::delete('/{id}', [PenyewaanController::class, 'destroy']);
+});
