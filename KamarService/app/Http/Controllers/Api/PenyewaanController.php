@@ -57,19 +57,20 @@ class PenyewaanController extends Controller
      */
     public function show($id)
     {
-        $penyewaan = Penyewaan::with(['kamar', 'penyewa'])->find($id);
+        // Panggil relasi kamar, dan sekalian ambil data TypeRoom di dalam kamar tersebut
+    $penyewaan = Penyewaan::with(['kamar.typeRoom'])->find($id);
 
-        if (!$penyewaan) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Data tidak ditemukan'
-            ], 404);
-        }
-
+    if (!$penyewaan) {
         return response()->json([
-            'success' => true,
-            'data' => $penyewaan
-        ]);
+            'success' => false,
+            'message' => 'Data penyewaan tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $penyewaan
+    ], 200);
     }
 
     /**

@@ -31,3 +31,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/dashboard/qr',[QrController::class, 'index'])->middleware(QrMiddleware::class);
 
 require __DIR__.'/auth.php';
+
+Route::get('/kamar', function(){
+    return view('dashboard.kamar');
+});
+
+Route::get('/laporan', function(){
+    return view('dashboard.laporan');
+});
