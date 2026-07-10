@@ -20,54 +20,12 @@ class RoomTypeFacilitySeeder extends Seeder
                 'facility_id' => 1
             ],
             [
-                'type_room_id' => 1,
-                'facility_id' => 2
-            ],
-            [
-                'type_room_id' => 1,
-                'facility_id' => 3
-            ],
-
-            // Double Room
-            [
-                'type_room_id' => 2,
-                'facility_id' => 1
-            ],
-            [
                 'type_room_id' => 2,
                 'facility_id' => 2
             ],
             [
-                'type_room_id' => 2,
-                'facility_id' => 4
-            ],
-
-            // Deluxe
-            [
-                'type_room_id' => 3,
-                'facility_id' => 1
-            ],
-            [
                 'type_room_id' => 3,
                 'facility_id' => 3
-            ],
-            [
-                'type_room_id' => 3,
-                'facility_id' => 5
-            ],
-
-            // Suite
-            [
-                'type_room_id' => 4,
-                'facility_id' => 1
-            ],
-            [
-                'type_room_id' => 4,
-                'facility_id' => 5
-            ],
-            [
-                'type_room_id' => 4,
-                'facility_id' => 6
             ],
         ]);
     }

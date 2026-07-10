@@ -15,21 +15,17 @@ class TypeRoomSeeder extends Seeder
     {
         DB::table('type_rooms')->insert([
             [
-                'name' => 'Single Room',
+                'name' => 'Normal',
                 'price' => 150000,
             ],
             [
-                'name' => 'Double Room',
+                'name' => 'Premium',
                 'price' => 250000,
             ],
             [
                 'name' => 'Deluxe Room',
                 'price' => 400000,
-            ],
-            [
-                'name' => 'Suite Room',
-                'price' => 750000,
-            ],
+            ]
         ]);
     }
 }

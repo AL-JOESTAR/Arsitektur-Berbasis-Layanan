@@ -59,7 +59,7 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
-                    <h1 class="mt-4">ini laporan</h1>
+                    <h1 class="mt-4">ini Pembayaran</h1>
                     <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
                     <p>
                         Make sure to keep all page content within the
@@ -69,10 +69,60 @@
                         ID which will toggle the menu when clicked.
                     </p>
                 </div>
+
+                <button id="pay-button" data-pembayaran-id="1" class="btn btn-primary">
+                    Bayar Sekarang
+                </button>
+
+                <script type="text/javascript">
+                    document.getElementById('pay-button').onclick = function (e) {
+                        e.preventDefault();
+                        
+                        // Ambil ID pembayaran dari attribute tombol
+                        let pembayaranId = this.getAttribute('data-pembayaran-id'); 
+
+                        // 1. Tembak API Service Kamar (Port 8001) untuk meminta Snap Token
+                        fetch(`http://localhost:8001/api/pembayaran/${pembayaranId}/snap-token`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // Jika API Service Kamar diproteksi Bearer Token, masukkan di sini
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            console.log(result)
+                            if (result.success) {
+                                // 2. Jika sukses dapat token, panggil pop-up Midtrans Snap
+                                window.snap.pay(result.snap_token, {
+                                    onSuccess: function(result){
+                                        alert("Pembayaran sukses! Halaman akan dimuat ulang.");
+                                        location.reload();
+                                    },
+                                    onPending: function(result){
+                                        alert("Menunggu pembayaran Anda.");
+                                    },
+                                    onError: function(result){
+                                        alert("Pembayaran gagal, silahkan coba lagi.");
+                                    }
+                                });
+                            } else {
+                                alert('Gagal mengambil token pembayaran: ' . result.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan koneksi antar service.');
+                        });
+                    };
+                </script>
             </div>
+
+            
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
         <!-- Core theme JS-->
         <script src="{{ asset('assets/js/scripts.js') }}"></script>
     </body>

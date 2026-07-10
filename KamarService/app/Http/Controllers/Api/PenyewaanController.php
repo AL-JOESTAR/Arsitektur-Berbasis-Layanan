@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pembayaran;
 use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -41,15 +42,48 @@ class PenyewaanController extends Controller
     }
 
     // 4. Jika user ada, baru simpan data ke tabel penyewaan
+    // $penyewaan = Penyewaan::create([
+    //     'penyewa_id' => $request->penyewa_id, // tetap disimpan sebagai ID biasa
+    //     'kamar_id' => $request->kamar_id,
+    //     'start' => $request->start,
+    //     'end' => $request->end,
+    //     'status_sewa' => 'PENDING', // status awal
+    // ]);
+
+    // return response()->json($penyewaan, 201);
+
     $penyewaan = Penyewaan::create([
-        'penyewa_id' => $request->penyewa_id, // tetap disimpan sebagai ID biasa
-        'kamar_id' => $request->kamar_id,
-        'start' => $request->start,
-        'end' => $request->end,
-        'status_sewa' => 'PENDING', // status awal
+    'penyewa_id' => $request->penyewa_id,
+    'kamar_id' => $request->kamar_id,
+    'start' => $request->start,
+    'end' => $request->end,
+    'status_sewa' => 'PENDING',
+]);
+
+   $penyewaan->load('kamar.typeRoom');
+    $hargaKamar = $penyewaan->kamar->typeRoom->price ?? 0;
+
+    // 5. OTOMATIS: Simpan data tagihan awal di tabel pembayaran lokal
+    $pembayaran = Pembayaran::create([
+        'penyewaan_id' => $penyewaan->id,
+        'tanggal_bayar' => null, // null karena belum bayar
+        'jenis_pembayaran' => 'awal',
+        'periode' => 1, // default sewa 1 bulan di awal
+        'nominal' => $hargaKamar, // Harga otomatis terisi dari tipe kamar
+        'status_bayar' => 'pending',
+        'jatuh_tempo' => now()->addDays(1), // Batas bayar 24 jam
     ]);
 
-    return response()->json($penyewaan, 201);
+    // 6. Kembalikan response sukses beserta ID Pembayaran untuk dipakai Midtrans nanti
+    return response()->json([
+        'success' => true,
+        'message' => 'Penyewaan dan Tagihan berhasil dibuat!',
+        'data' => [
+            'penyewaan_id' => $penyewaan->id,
+            'pembayaran_id' => $pembayaran->id // Dilempar balik ke form javascript tadi
+        ]
+    ], 201);
+
     }
 
     /**

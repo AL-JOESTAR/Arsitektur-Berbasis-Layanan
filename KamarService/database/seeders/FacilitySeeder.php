@@ -15,22 +15,13 @@ class FacilitySeeder extends Seeder
     {
          DB::table('facilities')->insert([
             [
-                'name' => 'AC'
+                'name' => 'Kasur'
             ],
             [
                 'name' => 'TV'
             ],
             [
-                'name' => 'WiFi'
-            ],
-            [
-                'name' => 'Kamar Mandi Dalam'
-            ],
-            [
-                'name' => 'Breakfast'
-            ],
-            [
-                'name' => 'Mini Bar'
+                'name' => 'WiFi dan TV'
             ],
         ]);
     }

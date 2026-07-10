@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\KamarController;
+use App\Http\Controllers\Api\PembayaranController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PenyewaanController;
 
@@ -13,3 +15,7 @@ Route::prefix('penyewaans')->group(function () {
     Route::patch('/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/{id}', [PenyewaanController::class, 'destroy']);
 });
+
+Route::get('/pembayaran/{id}/snap-token', [PembayaranController::class, 'generateSnapToken']);
+
+Route::get('/kamar',[KamarController::class, 'index']);

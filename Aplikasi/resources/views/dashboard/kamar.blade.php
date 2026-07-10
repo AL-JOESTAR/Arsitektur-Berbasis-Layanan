@@ -20,7 +20,7 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/dashboard">Dashboard</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/kamar">Kamar</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/laporan">laporan</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/pembayaran">Events</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
                 </div>
@@ -51,6 +51,7 @@
                                         <form method="POST" action="/logout">
                                 @csrf
                         <button type="submit">Logout</button>
+                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -70,7 +71,62 @@
                     </p>
                 </div>
             </div>
+
+            <div class="container">
+                <form id="form-sewa">
+    <input type="hidden" id="penyewa_id" value="{{ auth()->user()->id }}"> 
+    <input type="hidden" id="kamar_id" value="$kamar->id"> 
+
+    <div class="form-group">
+        <label>Tanggal Mulai</label>
+        <input type="date" id="start" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label>Tanggal Selesai</label>
+        <input type="date" id="end" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Konfirmasi Sewa</button>
+</form>
+
+<script>
+document.getElementById('form-sewa').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Mengumpulkan data form
+    let dataSewa = {
+        penyewa_id: document.getElementById('penyewa_id').value, // Isinya: 1
+        kamar_id: document.getElementById('kamar_id').value,     // Isinya: id kamar
+        start: document.getElementById('start').value,
+        end: document.getElementById('end').value
+    };
+
+    // KIRIM (POST) KE SERVICE KAMAR (Port 8001)
+    fetch('http://localhost:8001/api/penyewaans', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(dataSewa)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.success) {
+            alert('Sewa Kamar Berhasil di-Booking! Silahkan lakukan pembayaran.');
+            // Arahkan Budi ke halaman pembayaran bawa data pembayaran_id yang baru dibuat otomatis
+            window.location.href = '/pembayaran/' + result.data.pembayaran_id;
+        } else {
+            alert('Gagal sewa: ' + result.message);
+        }
+    });
+});
+</script>
+            </div>
         </div>
+
+        
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

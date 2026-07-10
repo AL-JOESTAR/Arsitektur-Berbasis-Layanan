@@ -39,3 +39,6 @@ Route::get('/kamar', function(){
 Route::get('/laporan', function(){
     return view('dashboard.laporan');
 });
+Route::get('/pembayaran', function(){
+    return view('dashboard.pembayaran');
+});
