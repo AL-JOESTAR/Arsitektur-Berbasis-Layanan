@@ -13,7 +13,8 @@ class KamarController extends Controller
 
     $kamars = $response->json()['kamar'];
 
-    return view('dashboard.kamar', compact('kamars'));
+    // return view('dashboard.kamar', compact('kamars'));
+    return view('home', compact('kamars'));
 }
 
 public function sewa(Request $request)

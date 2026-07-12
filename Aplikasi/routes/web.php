@@ -19,9 +19,7 @@ Route::get('/dashboard', DashboardRedirectController::class)
     ->middleware(['auth'])
     ->name('dashboard');
 
-Route::get('/home', function () {
-    return view('home');
-    })->name('home');
+Route::get('/home', [KamarController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

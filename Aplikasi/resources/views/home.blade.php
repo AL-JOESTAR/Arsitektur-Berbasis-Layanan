@@ -382,62 +382,111 @@
       <h2>Kos pilihan minggu ini.</h2>
       <p>Setiap kos kami beri nama kayu — caranya kami menandai karakter dan suasana tiap hunian.</p>
     </div>
+      
+    <div class="container-fluid mt-4">
 
-    <div class="listing-grid">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-      <div class="card reveal">
-        <div class="card-art">
-          <div class="bg" style="background:linear-gradient(135deg,#8B5E3C,#C98B5E);"></div>
-          <div class="wood-tag"><span class="wood-swatch" style="background:#8B5E3C;"></span><span class="mono">JATI</span></div>
-          <svg class="room-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="1.3"><rect x="4" y="9" width="16" height="11"/><path d="M4 9l8-6 8 6"/></svg>
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
-        <div class="card-body">
-          <div class="loc">Kebayoran Baru, Jakarta Selatan</div>
-          <h3>Kos Jati</h3>
-          <div class="amenities"><span>Kamar Mandi Dalam</span><span>AC</span><span>WiFi</span></div>
-          <div class="card-foot">
-            <div class="price">Rp 2.450.000 <span>/ bulan</span></div>
-            <a href="#">Lihat Detail →</a>
-          </div>
-        </div>
-      </div>
+    @endif
 
-      <div class="card reveal">
-        <div class="card-art">
-          <div class="bg" style="background:linear-gradient(135deg,#5C6B4F,#8FA083);"></div>
-          <div class="wood-tag"><span class="wood-swatch" style="background:#5C6B4F;"></span><span class="mono">SAKA</span></div>
-          <svg class="room-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="1.3"><rect x="4" y="9" width="16" height="11"/><path d="M4 9l8-6 8 6"/></svg>
-        </div>
-        <div class="card-body">
-          <div class="loc">Dago Atas, Bandung</div>
-          <h3>Kos Saka</h3>
-          <div class="amenities"><span>Balkon</span><span>Dapur Bersama</span><span>Laundry</span></div>
-          <div class="card-foot">
-            <div class="price">Rp 1.850.000 <span>/ bulan</span></div>
-            <a href="#">Lihat Detail →</a>
-          </div>
-        </div>
-      </div>
+    <div class="row">
 
-      <div class="card reveal">
-        <div class="card-art">
-          <div class="bg" style="background:linear-gradient(135deg,#7A3B2E,#B8895B);"></div>
-          <div class="wood-tag"><span class="wood-swatch" style="background:#7A3B2E;"></span><span class="mono">MAHONI</span></div>
-          <svg class="room-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="1.3"><rect x="4" y="9" width="16" height="11"/><path d="M4 9l8-6 8 6"/></svg>
+        @foreach($kamars as $kamar)
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Kamar {{ $kamar['Nomor_Kamar'] }}
+                    </h5>
+
+                    @if(isset($kamar['Harga']))
+                        <p class="mb-1">
+                            <strong>Harga :</strong>
+                            Rp {{ number_format($kamar['Harga']) }}
+                        </p>
+                    @endif
+
+                    @if(isset($kamar['Status']))
+                        <p class="mb-3">
+                            <strong>Status :</strong>
+                            {{ $kamar['Status'] }}
+                        </p>
+                    @endif
+
+                    <form action="{{ url('/sewa') }}" method="POST">
+
+                        @csrf
+
+                        <input
+                            type="hidden"
+                            name="penyewa_id"
+                            value="{{ auth()->user()->id }}"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="kamar_id"
+                            value="{{ $kamar['id'] }}"
+                        >
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Tanggal Mulai
+                            </label>
+
+                            <input
+                                type="date"
+                                name="start"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Tanggal Selesai
+                            </label>
+
+                            <input
+                                type="date"
+                                name="end"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100"
+                        >
+                            Konfirmasi Sewa
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
         </div>
-        <div class="card-body">
-          <div class="loc">BSD City, Tangerang Selatan</div>
-          <h3>Kos Mahoni</h3>
-          <div class="amenities"><span>Co-working Space</span><span>Gym</span><span>Parkir Motor</span></div>
-          <div class="card-foot">
-            <div class="price">Rp 2.100.000 <span>/ bulan</span></div>
-            <a href="#">Lihat Detail →</a>
-          </div>
-        </div>
-      </div>
+
+        @endforeach
 
     </div>
-  </div>
+
+</div>
 </section>
 
 <section class="testi" id="testimoni">
@@ -499,6 +548,41 @@
     @csrf
     <button type="submit">Logout</button>
 </footer>
+
+<script
+    type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+</script>
+
+        @if(session('snapToken'))
+<script>
+    window.snap.pay("{{ session('snapToken') }}", {
+
+        onSuccess: function(result){
+            alert("Pembayaran berhasil");
+            console.log(result);
+
+            window.location.reload();
+        },
+
+        onPending: function(result){
+            alert("Menunggu pembayaran");
+            console.log(result);
+        },
+
+        onError: function(result){
+            alert("Pembayaran gagal");
+            console.log(result);
+        },
+
+        onClose: function(){
+            alert("Popup pembayaran ditutup.");
+        }
+
+    });
+</script>
+@endif
 
 <script>
   const header = document.getElementById('siteHeader');

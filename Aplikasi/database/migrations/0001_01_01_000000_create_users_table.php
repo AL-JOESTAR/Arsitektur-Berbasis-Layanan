@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('no_hp');
+            $table->string('no_hp')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role',['admin', 'penyewa']);
-            $table->unsignedBigInteger('parend_id');
-            $table->enum('status_user',['active','expired']);
+            $table->enum('role',['admin', 'penyewa'])->default('penyewa');
+            $table->unsignedBigInteger('parend_id')->nullable();
+            $table->enum('status_user',['active','nonaktif'])->default('nonaktif');
             $table->rememberToken();
             $table->timestamps();
         });

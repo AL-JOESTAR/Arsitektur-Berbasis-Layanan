@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('siti123'),
             'role' => 'penyewa',
             'parend_id' => 1,
-            'status_user' => 'expired',
+            'status_user' => 'nonaktif',
         ]);
 
 

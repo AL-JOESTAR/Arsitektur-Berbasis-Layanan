@@ -21,7 +21,7 @@ return new class extends Migration
             
             $table->date("start");
             $table->date("end");
-            $table->enum("status_sewa",['Pending', 'Aktif', 'Batal', 'Selesai']);
+            $table->enum("status_sewa",['Pending', 'Aktif', 'Batal', 'Selesai'])->default('Pending');
             $table->timestamps();
         });
     }
