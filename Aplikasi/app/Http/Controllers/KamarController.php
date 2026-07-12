@@ -28,16 +28,25 @@ public function sewa(Request $request)
             ]
         );
 
+        $response = Http::post('http://host.docker.internal:8001/api/penyewaans', [
+            'penyewa_id' => $request->penyewa_id,
+            'kamar_id'   => $request->kamar_id,
+            'start'      => $request->start,
+            'end'        => $request->end,
+        ]);
+        
+
+
+        $data = $response->json();
+
         if ($response->successful()) {
 
             return redirect()
                 ->back()
-                ->with('success', 'Berhasil menyewa kamar');
-
+                ->with('snapToken', $data['snap_token'])
+                ->with('success', $data['message']);
         }
 
-        return redirect()
-            ->back()
-            ->with('error', 'Gagal menyewa kamar');
+        return back()->with('error', 'Gagal membuat penyewaan');
     }
 }

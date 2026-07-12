@@ -7,6 +7,9 @@ use App\Models\Pembayaran;
 use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Midtrans\Config;
+use Midtrans\Snap;
+use Illuminate\Support\Facades\DB;
 
 class PenyewaanController extends Controller
 {
@@ -24,77 +27,181 @@ class PenyewaanController extends Controller
     /**
      * POST /api/penyewaans
      */
-    public function store(Request $request)
-    {
+public function store(Request $request)
+{
     $request->validate([
-        'penyewa_id' => 'required|integer',
-        'kamar_id'   => 'required|integer',
+        'penyewa_id' => 'required',
+        'kamar_id'   => 'required',
         'start'      => 'required|date',
         'end'        => 'required|date|after:start',
     ]);
 
+    DB::beginTransaction();
+
     try {
 
-        // Cek user ke aplikasi utama
+        // ==========================
+        // Konfigurasi Midtrans
+        // ==========================
+
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // ==========================
+        // Cek User di Aplikasi Utama
+        // ==========================
+
         $response = Http::get(
-            "http://host.docker.internal/api/users/{$request->penyewa_id}"
+            "http://host.docker.internal/api/users/".$request->penyewa_id
         );
 
         if ($response->failed()) {
+
+            DB::rollBack();
+
             return response()->json([
                 'success' => false,
-                'message' => 'User (Penyewa) tidak ditemukan.',
-                'status'  => $response->status(),
-            ], 404);
+                'message' => 'User tidak ditemukan'
+            ],404);
+
         }
 
-        // Simpan penyewaan
+        $user = $response->json() ['data'];
+
+        // ==========================
+        // Simpan Penyewaan
+        // ==========================
+
         $penyewaan = Penyewaan::create([
-            'penyewa_id' => $request->penyewa_id,
-            'kamar_id'   => $request->kamar_id,
-            'start'      => $request->start,
-            'end'        => $request->end,
-            'status_sewa'=> 'PENDING',
+
+            'penyewa_id'=>$request->penyewa_id,
+
+            'kamar_id'=>$request->kamar_id,
+
+            'start'=>$request->start,
+
+            'end'=>$request->end,
+
+            'status_sewa'=>'PENDING'
+
         ]);
 
-        // Ambil harga kamar (jika relasi tersedia)
         $penyewaan->load('kamar.typeRoom');
 
-        $hargaKamar = 0;
+        $harga = $penyewaan->kamar->typeRoom->price;
 
-        if ($penyewaan->kamar && $penyewaan->kamar->typeRoom) {
-            $hargaKamar = $penyewaan->kamar->typeRoom->price;
-        }
+        // ==========================
+        // Simpan Pembayaran
+        // ==========================
 
-        // Buat tagihan awal
         $pembayaran = Pembayaran::create([
-            'penyewaan_id'     => $penyewaan->id,
-            'tanggal_bayar'    => null,
-            'jenis_pembayaran' => 'awal',
-            'periode'          => 1,
-            'nominal'          => $hargaKamar,
-            'status_bayar'     => 'pending',
-            'jatuh_tempo'      => now()->addDay(),
+
+            'penyewaan_id'=>$penyewaan->id,
+
+            'tanggal_bayar'=>null,
+
+            'jenis_pembayaran'=>'awal',
+
+            'periode'=>1,
+
+            'nominal'=>$harga,
+
+            'status_bayar'=>'pending',
+
+            'jatuh_tempo'=>now()->addDay()
+
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Penyewaan dan tagihan berhasil dibuat.',
-            'data' => [
-                'penyewaan'  => $penyewaan,
-                'pembayaran' => $pembayaran,
+        // ==========================
+        // Parameter Midtrans
+        // ==========================
+
+        $params = [
+
+            'transaction_details'=>[
+
+                'order_id'=>'ORDER-'.$pembayaran->id,
+
+                'gross_amount'=>$harga
+
+            ],
+
+            'customer_details'=>[
+
+                'first_name'=>$user['name'] ?? 'Penyewa',
+
+                'email'=>$user['email'] ?? ''
+
+            ],
+
+            'item_details'=>[
+
+                [
+
+                    'id'=>$penyewaan->kamar_id,
+
+                    'price'=>$harga,
+
+                    'quantity'=>1,
+
+                    'name'=>'Sewa Kamar'
+
+                ]
+
             ]
-        ], 201);
 
-    } catch (\Throwable $e) {
+        ];
+
+        // ==========================
+        // Generate Snap Token
+        // ==========================
+
+        $snapToken = Snap::getSnapToken($params);
+
+        $pembayaran->snap_token = $snapToken;
+
+        $pembayaran->save();
+
+        DB::commit();
 
         return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-            'file'    => $e->getFile(),
-            'line'    => $e->getLine(),
-        ], 500);
+
+            'success'=>true,
+
+            'message'=>'Penyewaan berhasil',
+
+            'snap_token'=>$snapToken,
+
+            'data'=>[
+
+                'penyewaan'=>$penyewaan,
+
+                'pembayaran'=>$pembayaran
+
+            ]
+
+        ],201);
+
     }
+
+    catch(\Exception $e){
+
+        DB::rollBack();
+
+        return response()->json([
+
+            'success'=>false,
+
+            'message'=>$e->getMessage(),
+
+            'line'=>$e->getLine()
+
+        ],500);
+
+    }
+
 }
 
     /**

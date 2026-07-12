@@ -180,6 +180,42 @@
 
         </div>
 
+
+<script
+    type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+</script>
+
+        @if(session('snapToken'))
+<script>
+    window.snap.pay("{{ session('snapToken') }}", {
+
+        onSuccess: function(result){
+            alert("Pembayaran berhasil");
+            console.log(result);
+
+            window.location.reload();
+        },
+
+        onPending: function(result){
+            alert("Menunggu pembayaran");
+            console.log(result);
+        },
+
+        onError: function(result){
+            alert("Pembayaran gagal");
+            console.log(result);
+        },
+
+        onClose: function(){
+            alert("Popup pembayaran ditutup.");
+        }
+
+    });
+</script>
+@endif
+
         
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

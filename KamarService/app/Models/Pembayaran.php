@@ -13,7 +13,8 @@ class Pembayaran extends Model
         'periode',
         'nominal',
         'status_bayar',
-        'jatuh_tempo'
+        'jatuh_tempo',
+        'snap_token'
     ];
 
     public function pembayaran()
