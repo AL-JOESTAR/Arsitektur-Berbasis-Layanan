@@ -28,10 +28,16 @@ public function sewa(Request $request)
             ]
         );
 
-        dd(
-        $response->status(),
-        $response->body(),
-        $response->json()
-    );
+        if ($response->successful()) {
+
+            return redirect()
+                ->back()
+                ->with('success', 'Berhasil menyewa kamar');
+
+        }
+
+        return redirect()
+            ->back()
+            ->with('error', 'Gagal menyewa kamar');
     }
 }

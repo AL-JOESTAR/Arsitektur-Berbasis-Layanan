@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('nominal', 12, 2)->default(0);
             $table->enum('status_bayar', ['paid', 'pending', 'cancelled']);
             $table->dateTime('jatuh_tempo');
+            $table->string('snap_token')->nullable();
             $table->timestamps();   
         });
     }
