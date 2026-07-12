@@ -18,7 +18,7 @@ return new class extends Migration
             ->constrained('penyewaans')
             ->cascadeOnDelete();
 
-            $table->dateTime('tanggal_bayar');
+            $table->dateTime('tanggal_bayar')->nullable();
             $table->enum('jenis_pembayaran',['awal', 'perpanjangan']);
             $table->integer('periode');
             $table->decimal('nominal', 12, 2)->default(0);

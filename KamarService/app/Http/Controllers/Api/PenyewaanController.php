@@ -26,65 +26,76 @@ class PenyewaanController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-        'penyewa_id' => 'required',
-        'kamar_id' => 'required',
-        'start' => 'required|date',
-        'end' => 'required|date',
+    $request->validate([
+        'penyewa_id' => 'required|integer',
+        'kamar_id'   => 'required|integer',
+        'start'      => 'required|date',
+        'end'        => 'required|date|after:start',
     ]);
 
-    // 2. Tembak API Aplikasi Utama untuk cek apakah User ada
-    $response = Http::get("http://host.docker.internal/api/users/{$request->penyewa_id}");
+    try {
 
-    // 3. Jika user tidak ditemukan di Aplikasi Utama, gagalkan proses sewa
-    if ($response->failed()) {
-        return response()->json(['message' => 'User (Penyewa) tidak ditemukan!'], 404);
+        // Cek user ke aplikasi utama
+        $response = Http::get(
+            "http://host.docker.internal/api/users/{$request->penyewa_id}"
+        );
+
+        if ($response->failed()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User (Penyewa) tidak ditemukan.',
+                'status'  => $response->status(),
+            ], 404);
+        }
+
+        // Simpan penyewaan
+        $penyewaan = Penyewaan::create([
+            'penyewa_id' => $request->penyewa_id,
+            'kamar_id'   => $request->kamar_id,
+            'start'      => $request->start,
+            'end'        => $request->end,
+            'status_sewa'=> 'PENDING',
+        ]);
+
+        // Ambil harga kamar (jika relasi tersedia)
+        $penyewaan->load('kamar.typeRoom');
+
+        $hargaKamar = 0;
+
+        if ($penyewaan->kamar && $penyewaan->kamar->typeRoom) {
+            $hargaKamar = $penyewaan->kamar->typeRoom->price;
+        }
+
+        // Buat tagihan awal
+        $pembayaran = Pembayaran::create([
+            'penyewaan_id'     => $penyewaan->id,
+            'tanggal_bayar'    => null,
+            'jenis_pembayaran' => 'awal',
+            'periode'          => 1,
+            'nominal'          => $hargaKamar,
+            'status_bayar'     => 'pending',
+            'jatuh_tempo'      => now()->addDay(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Penyewaan dan tagihan berhasil dibuat.',
+            'data' => [
+                'penyewaan'  => $penyewaan,
+                'pembayaran' => $pembayaran,
+            ]
+        ], 201);
+
+    } catch (\Throwable $e) {
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
+        ], 500);
     }
-
-    // 4. Jika user ada, baru simpan data ke tabel penyewaan
-    // $penyewaan = Penyewaan::create([
-    //     'penyewa_id' => $request->penyewa_id, // tetap disimpan sebagai ID biasa
-    //     'kamar_id' => $request->kamar_id,
-    //     'start' => $request->start,
-    //     'end' => $request->end,
-    //     'status_sewa' => 'PENDING', // status awal
-    // ]);
-
-    // return response()->json($penyewaan, 201);
-
-    $penyewaan = Penyewaan::create([
-    'penyewa_id' => $request->penyewa_id,
-    'kamar_id' => $request->kamar_id,
-    'start' => $request->start,
-    'end' => $request->end,
-    'status_sewa' => 'PENDING',
-]);
-
-   $penyewaan->load('kamar.typeRoom');
-    $hargaKamar = $penyewaan->kamar->typeRoom->price ?? 0;
-
-    // 5. OTOMATIS: Simpan data tagihan awal di tabel pembayaran lokal
-    $pembayaran = Pembayaran::create([
-        'penyewaan_id' => $penyewaan->id,
-        'tanggal_bayar' => null, // null karena belum bayar
-        'jenis_pembayaran' => 'awal',
-        'periode' => 1, // default sewa 1 bulan di awal
-        'nominal' => $hargaKamar, // Harga otomatis terisi dari tipe kamar
-        'status_bayar' => 'pending',
-        'jatuh_tempo' => now()->addDays(1), // Batas bayar 24 jam
-    ]);
-
-    // 6. Kembalikan response sukses beserta ID Pembayaran untuk dipakai Midtrans nanti
-    return response()->json([
-        'success' => true,
-        'message' => 'Penyewaan dan Tagihan berhasil dibuat!',
-        'data' => [
-            'penyewaan_id' => $penyewaan->id,
-            'pembayaran_id' => $pembayaran->id // Dilempar balik ke form javascript tadi
-        ]
-    ], 201);
-
-    }
+}
 
     /**
      * GET /api/penyewaans/{id}

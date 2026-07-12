@@ -69,61 +69,115 @@
                         <code>#sidebarToggle</code>
                         ID which will toggle the menu when clicked.
                     </p>
+
+                        <div class="container-fluid mt-4">
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="row">
+
+        @foreach($kamars as $kamar)
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Kamar {{ $kamar['Nomor_Kamar'] }}
+                    </h5>
+
+                    @if(isset($kamar['Harga']))
+                        <p class="mb-1">
+                            <strong>Harga :</strong>
+                            Rp {{ number_format($kamar['Harga']) }}
+                        </p>
+                    @endif
+
+                    @if(isset($kamar['Status']))
+                        <p class="mb-3">
+                            <strong>Status :</strong>
+                            {{ $kamar['Status'] }}
+                        </p>
+                    @endif
+
+                    <form action="{{ url('/sewa') }}" method="POST">
+
+                        @csrf
+
+                        <input
+                            type="hidden"
+                            name="penyewa_id"
+                            value="{{ auth()->user()->id }}"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="kamar_id"
+                            value="{{ $kamar['id'] }}"
+                        >
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Tanggal Mulai
+                            </label>
+
+                            <input
+                                type="date"
+                                name="start"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Tanggal Selesai
+                            </label>
+
+                            <input
+                                type="date"
+                                name="end"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100"
+                        >
+                            Konfirmasi Sewa
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @endforeach
+
+    </div>
+
+</div>
+
                 </div>
             </div>
 
-            <div class="container">
-                <form id="form-sewa">
-    <input type="hidden" id="penyewa_id" value="{{ auth()->user()->id }}"> 
-    <input type="hidden" id="kamar_id" value="$kamar->id"> 
-
-    <div class="form-group">
-        <label>Tanggal Mulai</label>
-        <input type="date" id="start" class="form-control" required>
-    </div>
-
-    <div class="form-group">
-        <label>Tanggal Selesai</label>
-        <input type="date" id="end" class="form-control" required>
-    </div>
-
-    <button type="submit" class="btn btn-success">Konfirmasi Sewa</button>
-</form>
-
-<script>
-document.getElementById('form-sewa').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Mengumpulkan data form
-    let dataSewa = {
-        penyewa_id: document.getElementById('penyewa_id').value, // Isinya: 1
-        kamar_id: document.getElementById('kamar_id').value,     // Isinya: id kamar
-        start: document.getElementById('start').value,
-        end: document.getElementById('end').value
-    };
-
-    // KIRIM (POST) KE SERVICE KAMAR (Port 8001)
-    fetch('http://localhost:8001/api/penyewaans', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(dataSewa)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if(result.success) {
-            alert('Sewa Kamar Berhasil di-Booking! Silahkan lakukan pembayaran.');
-            // Arahkan Budi ke halaman pembayaran bawa data pembayaran_id yang baru dibuat otomatis
-            window.location.href = '/pembayaran/' + result.data.pembayaran_id;
-        } else {
-            alert('Gagal sewa: ' + result.message);
-        }
-    });
-});
-</script>
-            </div>
         </div>
 
         

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardRedirectController;
+use App\Http\Controllers\KamarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrController;
 use App\Http\Middleware\QrMiddleware;
@@ -32,9 +33,7 @@ Route::get('/dashboard/qr',[QrController::class, 'index'])->middleware(QrMiddlew
 
 require __DIR__.'/auth.php';
 
-Route::get('/kamar', function(){
-    return view('dashboard.kamar');
-});
+Route::get('/kamar', [KamarController::class, 'index']);
 
 Route::get('/laporan', function(){
     return view('dashboard.laporan');
@@ -42,3 +41,6 @@ Route::get('/laporan', function(){
 Route::get('/pembayaran', function(){
     return view('dashboard.pembayaran');
 });
+
+Route::post('/sewa', [KamarController::class, 'sewa'])
+    ->middleware('auth');
