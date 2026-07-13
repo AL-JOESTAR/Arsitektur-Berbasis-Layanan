@@ -31,7 +31,9 @@ Route::get('/dashboard/qr',[QrController::class, 'index'])->middleware(QrMiddlew
 
 require __DIR__.'/auth.php';
 
-Route::get('/kamar', [KamarController::class, 'index']);
+Route::get('/kamar', function(){
+    return view('dashboard.kamar');
+});
 
 Route::get('/laporan', function(){
     return view('dashboard.laporan');

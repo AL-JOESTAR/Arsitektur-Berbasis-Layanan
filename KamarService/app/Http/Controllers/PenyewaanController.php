@@ -83,7 +83,7 @@ public function store(Request $request)
 
         }
 
-        $user = $response->json();
+        $user = $response->json() ['data'];
 
         // ==========================
         // Simpan Penyewaan

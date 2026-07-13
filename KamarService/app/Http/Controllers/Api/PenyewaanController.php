@@ -114,6 +114,8 @@ public function store(Request $request)
 
         ]);
 
+        $orderId = 'ORDER-'.$pembayaran->id.'-'.time();
+
         // ==========================
         // Parameter Midtrans
         // ==========================
@@ -122,7 +124,7 @@ public function store(Request $request)
 
             'transaction_details'=>[
 
-                'order_id'=>'ORDER-'.$pembayaran->id,
+                'order_id'=>$orderId,
 
                 'gross_amount'=>$harga
 
@@ -161,7 +163,7 @@ public function store(Request $request)
         $snapToken = Snap::getSnapToken($params);
 
         $pembayaran->snap_token = $snapToken;
-
+        $pembayaran->order_id = $orderId;
         $pembayaran->save();
 
         DB::commit();

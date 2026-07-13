@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\KamarController;
 use App\Http\Controllers\Api\PembayaranController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PenyewaanController;
+use App\Http\Controllers\Api\MidtransController;
 
 Route::prefix('penyewaans')->group(function () {
     Route::get('/penyewa/{penyewa_id}', [PenyewaanController::class, 'getByPenyewa']);
@@ -19,3 +20,5 @@ Route::prefix('penyewaans')->group(function () {
 Route::get('/pembayaran/{id}/snap-token', [PembayaranController::class, 'generateSnapToken']);
 
 Route::get('/kamar',[KamarController::class, 'index']);
+
+Route::post('/midtrans/callback',[MidtransController::class,'notification']);
