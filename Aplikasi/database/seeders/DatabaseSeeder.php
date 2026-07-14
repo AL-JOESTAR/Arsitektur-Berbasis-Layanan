@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('budi123'),
             'role' => 'penyewa',
             'parend_id' => 1,
-            'status_user' => 'active',
+            'status_user' => 'nonaktif',
         ]);
 
         User::create([

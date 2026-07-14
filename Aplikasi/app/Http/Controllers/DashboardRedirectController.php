@@ -18,11 +18,11 @@ class DashboardRedirectController extends Controller
         }
 
         
-        if ($user->name === 'Administrator' || $user->email === 'admin') {
-            return view('dashboard.dashboard'); 
+        if ($user->role === 'admin' || $user->email === 'admin@admin.com') {
+            return redirect('/admin/dashboard'); 
         }
 
-        if($user->status_user == 'active'){
+        if($user->role == 'penyewa' && $user->status_user == 'active'){
             return view('dashboard.dashboard');
         }
 

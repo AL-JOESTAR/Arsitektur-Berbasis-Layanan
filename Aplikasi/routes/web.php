@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\LaporanController;
@@ -52,4 +53,18 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/laporan', [LaporanController::class,'store']);
 
+});
+
+
+//Admin
+Route::middleware('auth')->group(function () {
+
+    Route::get('/admin/laporan',[AdminLaporanController::class,'index']);
+
+    Route::post('/admin/laporan/{id}',[AdminLaporanController::class,'update']);
+
+});
+
+Route::get('/admin/dashboard', function(){
+    return view('dashboard_admin.dashboard');
 });

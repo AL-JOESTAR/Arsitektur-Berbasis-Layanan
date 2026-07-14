@@ -15,7 +15,7 @@ class LaporanController extends Controller
         $userId = Auth::id();
 
         // ambil penyewaan user
-            $response = Http::get(
+        $response = Http::get(
             "http://host.docker.internal:8001/api/penyewaans/penyewa/".$userId
         );
 
