@@ -7,5 +7,16 @@
 </head>
 <body>
     <h1>ini qr</h1>
+
+                        <nav class="nav-links">
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="nav-cta">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}">Log in</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="nav-cta">Register</a>
+                            @endif
+                        @endauth
+                    </nav>
 </body>
 </html>

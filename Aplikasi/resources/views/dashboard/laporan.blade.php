@@ -4,76 +4,64 @@
 
 <div class="container mt-4">
 
-                <h3>Buat Laporan</h3>
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
 
-                @if(session('success'))
+            <div class="mb-4">
+                <h3 class="mb-1">Buat Laporan</h3>
+                <p class="text-muted mb-0">Isi form di bawah untuk mengirim laporan terkait kamar sewaan.</p>
+            </div>
 
-                <div class="alert alert-success">
-
+            @if(session('success'))
+            <div class="alert alert-success d-flex align-items-center" role="alert">
                 {{ session('success') }}
+            </div>
+            @endif
 
-                </div>
-
-                @endif
-
-                @if(session('error'))
-
-                <div class="alert alert-danger">
-
+            @if(session('error'))
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
                 {{ session('error') }}
+            </div>
+            @endif
 
-                </div>
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
 
-                @endif
+                    <form method="POST" action="/laporan">
+                        @csrf
 
-                <form method="POST" action="/laporan">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Pilih Kamar</label>
+                            <select name="penyewaan_id" class="form-select">
+                                <option value="{{ $penyewaan['id'] }}">
+                                    Kamar {{ $penyewaan['kamar']['Nomor_Kamar'] }}
+                                </option>
+                            </select>
+                        </div>
 
-                @csrf
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Deskripsi</label>
+                            <textarea
+                                name="deskripsi"
+                                class="form-control"
+                                rows="5"
+                                placeholder="Jelaskan detail laporan Anda di sini..."
+                                required
+                            ></textarea>
+                        </div>
 
-                <div class="mb-3">
-
-                <label>Pilih Kamar</label>
-
-                <select name="penyewaan_id" class="form-control">
-
-                    <option value="{{ $penyewaan['id'] }}">
-                        Kamar {{ $penyewaan['kamar']['Nomor_Kamar'] }}
-                    </option>
-
-                </select>
-
-                </div>
-
-                <div class="mb-3">
-
-                <label>Deskripsi</label>
-
-                <textarea
-
-                name="deskripsi"
-
-                class="form-control"
-
-                rows="5"
-
-                required
-
-                ></textarea>
-
-                </div>
-
-                <button class="btn btn-primary">
-
-                Kirim Laporan
-
-                </button>
-
-                </form>
-
-                </div>
-
-
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary py-2">
+                                Kirim Laporan
+                            </button>
+                        </div>
+                    </form>
 
                 </div>
             </div>
+
+        </div>
+    </div>
+
+</div>
 @endsection

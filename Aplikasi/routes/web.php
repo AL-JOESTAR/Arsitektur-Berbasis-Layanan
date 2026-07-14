@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\KamarController;
@@ -33,9 +34,7 @@ Route::get('/dashboard/qr',[QrController::class, 'index'])->middleware(QrMiddlew
 
 require __DIR__.'/auth.php';
 
-Route::get('/kamar', function(){
-    return view('dashboard.kamar');
-})->middleware('auth');
+Route::get('/kamar', [KamarController::class, 'kamarindex'])->middleware('auth');
 
 Route::get('/laporan', function(){
     return view('dashboard.laporan');
@@ -67,4 +66,18 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/admin/dashboard', function(){
     return view('dashboard_admin.dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/admin/kamar', [AdminKamarController::class,'adminKamar']);
+
+    Route::post('/admin/kamar', [AdminKamarController::class,'store']);
+
+    Route::get('/admin/kamar/{id}/edit', [AdminKamarController::class,'edit']);
+
+    Route::put('/admin/kamar/{id}', [AdminKamarController::class,'update']);
+
+    Route::delete('/admin/kamar/{id}', [AdminKamarController::class,'destroy']);
+
 });

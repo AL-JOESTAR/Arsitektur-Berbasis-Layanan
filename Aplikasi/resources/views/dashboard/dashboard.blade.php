@@ -2,6 +2,6 @@
 
 @section('konten')
 
-    <h2>ini dashboard bree</h2>
+    <h2>Halo Selmat Datang {{ Auth::user()->name }}</h2>
 
 @endsection

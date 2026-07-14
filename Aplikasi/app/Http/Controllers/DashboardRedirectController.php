@@ -25,7 +25,7 @@ class DashboardRedirectController extends Controller
         if($user->role == 'penyewa' && $user->status_user == 'active'){
             return view('dashboard.dashboard');
         }
-
+        
         return redirect()->route('home');
     }
 }

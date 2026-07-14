@@ -571,7 +571,7 @@
             alert("Pembayaran berhasil");
             console.log(result);
 
-            window.location.reload();
+            window.location.href = "/dashboard";
         },
 
         onPending: function(result){
