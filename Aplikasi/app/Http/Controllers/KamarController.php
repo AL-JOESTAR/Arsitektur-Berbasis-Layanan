@@ -28,15 +28,7 @@ public function sewa(Request $request)
                 'end'         => $request->end,
             ]
         );
-
-        $response = Http::post('http://host.docker.internal:8001/api/penyewaans', [
-            'penyewa_id' => $request->penyewa_id,
-            'kamar_id'   => $request->kamar_id,
-            'start'      => $request->start,
-            'end'        => $request->end,
-        ]);
         
-
 
         $data = $response->json();
 

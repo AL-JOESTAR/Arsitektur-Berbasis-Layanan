@@ -29,6 +29,9 @@ class PenyewaanController extends Controller
      */
 public function store(Request $request)
 {
+
+
+
     $request->validate([
         'penyewa_id' => 'required',
         'kamar_id'   => 'required',
@@ -87,6 +90,11 @@ public function store(Request $request)
             'status_sewa'=>'PENDING'
 
         ]);
+
+        $kamar = $penyewaan->kamar;
+
+        $kamar->status_kamar = 'Reserved';
+        $kamar->save();
 
         $penyewaan->load('kamar.typeRoom');
 

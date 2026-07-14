@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class KamarController extends Controller
 {
     public function index(){
-       $kamar = Kamar::get();
+       $kamar = Kamar::with('typeRoom')
+        ->where('status_kamar', 'Tersedia')
+        ->get();
 
          return response()->json([
                 'success' => true,

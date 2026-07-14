@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Kamar extends Model
 {
     protected $fillable = [
-        'Nomor_Kamar', 'TypeRoom_id', 'status_kamar'
+        'Nomor_Kamar', 'type_room_id', 'status_kamar'
     ];
 
     public function typeRoom()
 {
-    return $this->belongsTo(TypeRoom::class);
+    return $this->belongsTo(TypeRoom::class, 'type_room_id');
 }
 
 public function penyewaans()

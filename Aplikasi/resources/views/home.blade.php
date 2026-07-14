@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andara — Hunian Kos Pilihan</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,440;9..144,560;9..144,640&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -240,7 +241,13 @@
         <a href="#kontak">Kontak</a>
       </div>
       <div style="display:flex; gap:12px;">
-        <a class="btn btn-primary">SEWA</a>
+        <form method="POST" action="{{ url('/logout') }}">
+        @csrf
+
+        <button type="submit" class="btn btn-primary">
+            Logout
+        </button>
+    </form>
       </div>
     </nav>
   </div>
@@ -400,6 +407,7 @@
     <div class="row">
 
         @foreach($kamars as $kamar)
+        @if($kamar['status_kamar'] == 'Tersedia')
 
         <div class="col-md-4 mb-4">
 
@@ -411,17 +419,17 @@
                         Kamar {{ $kamar['Nomor_Kamar'] }}
                     </h5>
 
-                    @if(isset($kamar['Harga']))
+                    @if(isset($kamar['type_room']['price']))
                         <p class="mb-1">
                             <strong>Harga :</strong>
-                            Rp {{ number_format($kamar['Harga']) }}
+                            Rp {{ number_format($kamar['type_room']['price']) }}
                         </p>
                     @endif
 
-                    @if(isset($kamar['Status']))
+                    @if(isset($kamar['status_kamar']))
                         <p class="mb-3">
                             <strong>Status :</strong>
-                            {{ $kamar['Status'] }}
+                            {{ $kamar['status_kamar'] }}
                         </p>
                     @endif
 
@@ -481,7 +489,7 @@
             </div>
 
         </div>
-
+        @endif
         @endforeach
 
     </div>
@@ -596,6 +604,6 @@
   }, { threshold: 0.15 });
   revealEls.forEach(el => io.observe(el));
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

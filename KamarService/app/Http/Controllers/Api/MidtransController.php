@@ -36,7 +36,7 @@ class MidtransController extends Controller
             $pembayaran->save();
 
             $penyewaan = $pembayaran->penyewaan;
-            $penyewaan->status_sewa='AKTIF';
+            $penyewaan->status_sewa='Aktif';
             $penyewaan->save();
 
             $kamar = $penyewaan->kamar;
@@ -44,9 +44,32 @@ class MidtransController extends Controller
             $kamar->save();
             }
 
-        else{
-            $pembayaran->status_bayar = 'failed';
+        if ($status == 'cancel') {
+
+            $pembayaran->status_bayar = 'cancel';
             $pembayaran->save();
+
+            $penyewaan = $pembayaran->penyewaan;
+            $penyewaan->status_sewa = 'Batal';
+            $penyewaan->save();
+
+            $kamar = $penyewaan->kamar;
+            $kamar->status_kamar = 'Tersedia';
+            $kamar->save();
+        }
+
+        if ($status == 'expire') {
+
+            $pembayaran->status_bayar='expired';
+            $pembayaran->save();
+
+            $penyewaan = $pembayaran->penyewaan;
+            $penyewaan->status_sewa='Batal';
+            $penyewaan->save();
+
+            $kamar = $penyewaan->kamar;
+            $kamar->status_kamar='Tersedia';
+            $kamar->save();
         }
 
             Http::patch(
