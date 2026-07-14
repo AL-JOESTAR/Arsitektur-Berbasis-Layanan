@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kamar;
 use App\Models\Pembayaran;
 use App\Models\Penyewaan;
 use Illuminate\Http\Request;
@@ -30,8 +31,6 @@ class PenyewaanController extends Controller
 public function store(Request $request)
 {
 
-
-
     $request->validate([
         'penyewa_id' => 'required',
         'kamar_id'   => 'required',
@@ -42,6 +41,32 @@ public function store(Request $request)
     DB::beginTransaction();
 
     try {
+
+        // ==========================
+        // Cek apakah kamar masih tersedia
+        // ==========================
+
+        $kamar = Kamar::find($request->kamar_id);
+
+        if (!$kamar) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Kamar tidak ditemukan.'
+            ],404);
+        }
+
+        if ($kamar->status_kamar != 'Tersedia') {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Kamar sudah tidak tersedia.'
+            ],400);
+        }
 
         // ==========================
         // Konfigurasi Midtrans

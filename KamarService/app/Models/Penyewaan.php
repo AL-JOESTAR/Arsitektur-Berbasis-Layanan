@@ -11,7 +11,12 @@ class Penyewaan extends Model
     ];
 
     public function kamar()
-{
-    return $this->belongsTo(Kamar::class);
-}
+    {
+        return $this->belongsTo(Kamar::class);
+    }
+
+    public function laporans()
+    {
+        return $this->hasMany(Laporan::class);
+    }
 }

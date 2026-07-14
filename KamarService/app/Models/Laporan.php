@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Laporan extends Model
 {
-     use HasFactory;
-
     protected $fillable = [
         'penyewaan_id',
         'deskripsi',
@@ -16,5 +13,8 @@ class Laporan extends Model
         'status_laporan',
     ];
 
-    
+    public function penyewaan()
+    {
+        return $this->belongsTo(Penyewaan::class);
+    }
 }
