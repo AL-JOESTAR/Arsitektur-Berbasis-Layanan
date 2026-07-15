@@ -143,7 +143,7 @@ public function store(Request $request)
 
             'status_bayar'=>'pending',
 
-            'jatuh_tempo'=>now()->addDay()
+            'jatuh_tempo'=>now()->addMinutes(2)
 
         ]);
 
@@ -185,7 +185,13 @@ public function store(Request $request)
 
                 ]
 
-            ]
+            ],
+
+            'expiry' => [
+            'start_time' => date('Y-m-d H:i:s O'),
+            'unit'       => 'minute',
+            'duration'   => 2,
+        ]
 
         ];
 
@@ -194,6 +200,8 @@ public function store(Request $request)
         // ==========================
 
         $snapToken = Snap::getSnapToken($params);
+
+        
 
         $pembayaran->snap_token = $snapToken;
         $pembayaran->order_id = $orderId;

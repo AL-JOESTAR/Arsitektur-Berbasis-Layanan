@@ -33,9 +33,9 @@ class PembayaranController extends Controller
             ],
             // Opsional: Batasi metode pembayaran (misal hanya e-wallet dan transfer bank)
             'expiry' => [
-                'start' => time() . ' +0700',
-                'duration' => 1,
-                'unit' => 'days'
+                'start_time' => time() . ' +0700',
+                'unit' => 'minute',
+                'duration' => 2,
             ]
         ];
 
