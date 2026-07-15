@@ -400,9 +400,9 @@
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0 1 17 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Kamar
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="#!">
+                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/door-access">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Status
+                        door log
                     </a>
                 </div>
                 <div class="sidebar-footer">
@@ -419,7 +419,7 @@
                         </button>
                         @auth
                         @if (auth()->check() && auth()->user()->email == 'admin@admin.com')
-                        <a class="btn btn-qr m-2" href="/dashboard/qr">
+                        <a class="btn btn-qr m-2" href="/admin/door-access">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z" fill="currentColor"/></svg>
                             QR
                         </a>

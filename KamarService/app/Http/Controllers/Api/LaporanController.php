@@ -89,19 +89,27 @@ class LaporanController extends Controller
     public function update(Request $request,$id)
     {
 
-        $laporan = Laporan::findOrFail($id);
+    $request->validate([
 
-        $laporan->status_laporan = $request->status_laporan;
+        'status_laporan'=>'required|in:menunggu,diproses,selesai'
 
-        $laporan->save();
+    ]);
 
-        return response()->json([
+    $laporan = Laporan::findOrFail($id);
 
-            'success'=>true,
+    $laporan->status_laporan = $request->status_laporan;
 
-            'message'=>'Status berhasil diubah'
+    $laporan->save();
 
-        ]);
+    return response()->json([
+
+        'success'=>true,
+
+        'message'=>'Status berhasil diupdate',
+
+        'data'=>$laporan
+
+    ]);
 
     }
 }

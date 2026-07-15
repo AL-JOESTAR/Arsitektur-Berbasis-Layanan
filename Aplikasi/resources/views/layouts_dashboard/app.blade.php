@@ -400,9 +400,9 @@
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0 1 17 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Kamar
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="#!">
+                    <a class="list-group-item list-group-item-action list-group-item-light" href="/door-access">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Status
+                        Door Access
                     </a>
                 </div>
                 <div class="sidebar-footer">
@@ -457,6 +457,7 @@
                 <div class="container-fluid">
                     @yield('konten')
         </div>
+        @yield('script')
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

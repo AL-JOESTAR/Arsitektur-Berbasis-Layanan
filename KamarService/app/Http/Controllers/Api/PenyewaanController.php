@@ -245,7 +245,7 @@ public function store(Request $request)
     public function show($id)
     {
         // Panggil relasi kamar, dan sekalian ambil data TypeRoom di dalam kamar tersebut
-    $penyewaan = Penyewaan::with(['kamar.typeRoom'])->find($id);
+    $penyewaan = Penyewaan::with(['kamar'])->find($id);
 
     if (!$penyewaan) {
         return response()->json([
@@ -315,7 +315,7 @@ public function store(Request $request)
 
     public function getByPenyewa($penyewa_id)
     {
-        $data = Penyewaan::with('kamar')
+        $data = Penyewaan::with('kamar.typeRoom')
             ->where('penyewa_id', $penyewa_id)
             ->get();
 

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminDoor;
 use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\DashboardRedirectController;
+use App\Http\Controllers\DoorController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
@@ -56,19 +58,21 @@ Route::middleware('auth')->group(function () {
 
 
 //Admin
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
 
+    //dashboard
+    Route::get('/admin/dashboard', function(){
+        return view('dashboard_admin.dashboard');
+    })
+    ->middleware(['auth'])
+    ->name('admin.dashboard');
+
+    //laporan
     Route::get('/admin/laporan',[AdminLaporanController::class,'index']);
 
     Route::post('/admin/laporan/{id}',[AdminLaporanController::class,'update']);
 
-});
-
-Route::get('/admin/dashboard', function(){
-    return view('dashboard_admin.dashboard');
-});
-
-Route::middleware('auth')->group(function () {
+    //kamar
 
     Route::get('/admin/kamar', [AdminKamarController::class,'adminKamar']);
 
@@ -80,4 +84,22 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/admin/kamar/{id}', [AdminKamarController::class,'destroy']);
 
+    Route::get('/admin/door-access', [AdminDoor::class,'index']);
+
+
+});
+
+
+//profile 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [ProfileController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware('auth')->group(function(){
+
+    Route::get('/door-access',[DoorController::class,'index']);
+
+    Route::get('/door-access/{reader}',
+        [DoorController::class,'scan'])->name('door.scan');
 });

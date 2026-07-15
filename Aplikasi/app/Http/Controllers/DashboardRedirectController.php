@@ -18,7 +18,7 @@ class DashboardRedirectController extends Controller
         }
 
         
-        if ($user->role === 'admin' || $user->email === 'admin@admin.com') {
+        if ($user->role === 'admin' && $user->email === 'admin@admin.com') {
             return redirect('/admin/dashboard'); 
         }
 

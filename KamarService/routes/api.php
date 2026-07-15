@@ -31,3 +31,11 @@ Route::get('/laporan',[LaporanController::class,'index']);
 Route::post('/laporan',[LaporanController::class,'store']);
 
 Route::put('/laporan/{id}',[LaporanController::class,'update']);
+
+//kamar
+
+Route::get('/kamar/index', [KamarController::class, 'adminIndex']);
+Route::post('/kamar', [KamarController::class, 'store']);
+Route::get('/kamar/{id}', [KamarController::class, 'show']);
+Route::put('/kamar/{id}', [KamarController::class, 'update']);
+Route::delete('/kamar/{id}', [KamarController::class, 'destroy']);

@@ -32,4 +32,9 @@ class User extends Authenticatable
         ];
     }
 
+    public function doorLogs()
+    {
+        return $this->hasMany(DoorLog::class);
+    }
+
 }
