@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
          $middleware->alias([
         'admin' => \App\Http\Middleware\DashboardMiddleware::class,
+        'penyewa' => \App\Http\Middleware\PenyewaMiddlerware::class,
     ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

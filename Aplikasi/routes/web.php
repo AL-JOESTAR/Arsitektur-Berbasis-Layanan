@@ -20,9 +20,12 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware(['auth', 'penyewa'])->group(function () {
+
 Route::get('/dashboard', DashboardRedirectController::class)
     ->middleware(['auth'])
     ->name('dashboard');
+});
 
 Route::get('/home', [KamarController::class, 'index'])->name('home');
 
@@ -32,7 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/dashboard/qr',[QrController::class, 'index'])->middleware(QrMiddleware::class);
 
 require __DIR__.'/auth.php';
 
@@ -92,7 +94,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 //profile 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'penyewa'])->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'index'])->name('dashboard');
 });
 
