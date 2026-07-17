@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-#[Fillable(['name', 'no_hp', 'password', 'email', 'role', 'parend_id', 'status_user'])]
+#[Fillable(['name', 'no_hp', 'password', 'email', 'role', 'parent_id', 'status_user'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -37,4 +37,8 @@ class User extends Authenticatable
         return $this->hasMany(DoorLog::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(ParentModel::class, 'parent_id');
+    }
 }

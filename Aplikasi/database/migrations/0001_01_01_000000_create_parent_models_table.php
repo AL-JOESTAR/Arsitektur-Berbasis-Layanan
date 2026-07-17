@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('laporans', function (Blueprint $table) {
+        Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('penyewaan_id');
-            $table->text('deskripsi');
-            $table->dateTime('waktu_laporan');
-            $table->enum('status_laporan', ['menunggu', 'diproses', 'selesai']);
+            $table->string('nama');
+            $table->string('email')->unique();
+            $table->string('no_hp');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('laporans');
+        Schema::dropIfExists('parent_models');
     }
 };

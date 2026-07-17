@@ -138,7 +138,7 @@
 
         <div class="row py-3 border-bottom">
             <div class="col-md-3 fw-bold text-secondary">Parent ID</div>
-            <div class="col-md-9">{{ $user->parend_id ?? '-' }}</div>
+            <div class="col-md-9">{{ $user->parent_id ?? '-' }}</div>
         </div>
 
         <div class="row py-3">

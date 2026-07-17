@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin123'),
             'role' => 'admin',
-            'parend_id' => 0,
+            'parent_id' => null,
             'status_user' => 'active',
         ]);
 
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'budi@test.com',
             'password' => Hash::make('budi123'),
             'role' => 'penyewa',
-            'parend_id' => 1,
+            'parent_id' => null,
             'status_user' => 'nonaktif',
         ]);
 
@@ -47,10 +47,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'siti@test.com',
             'password' => Hash::make('siti123'),
             'role' => 'penyewa',
-            'parend_id' => 1,
+            'parent_id' => null,
             'status_user' => 'nonaktif',
         ]);
 
+        $this->call([
+        ReaderSeeder::class,
+    ]);
 
     }
 }

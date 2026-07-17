@@ -18,7 +18,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role',['admin', 'penyewa'])->default('penyewa');
-            $table->unsignedBigInteger('parend_id')->nullable();
+
+            $table->foreignId('parent_id')
+            ->nullable()
+            ->constrained('parents')
+            ->nullOnDelete();
+
             $table->enum('status_user',['active','nonaktif'])->default('nonaktif');
             $table->rememberToken();
             $table->timestamps();
@@ -48,5 +53,12 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+
+        Schema::table('users', function (Blueprint $table) {
+
+        $table->dropForeign(['parent_id']);
+        $table->dropColumn('parent_id');
+
+    });
     }
 };

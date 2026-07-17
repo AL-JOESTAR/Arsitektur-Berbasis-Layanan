@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\DoorController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrController;
 use App\Http\Middleware\QrMiddleware;
@@ -96,6 +97,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware(['auth', 'penyewa'])->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'index'])->name('dashboard');
+    Route::resource('/parents', ParentController::class);
+
 });
 
 Route::middleware('auth')->group(function(){
