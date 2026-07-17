@@ -178,9 +178,13 @@
             }
 
             .list-group-item.active-nav{
-                background:var(--sidebar-elev) !important;
-                color:var(--sidebar-text-active) !important;
-                box-shadow:inset 3px 0 0 var(--brass);
+                background:var(--brass) !important;
+                color:#1D1707 !important;
+                font-weight:600;
+            }
+
+            .list-group-item.active-nav svg{
+                opacity:1;
             }
 
             .sidebar-footer{
@@ -388,27 +392,27 @@
                 </div>
                 <div class="sidebar-nav list-group list-group-flush">
                     <span class="nav-label">Menu</span>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('/dashboard') ? 'active-nav' : '' }}" href="/dashboard">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('dashboard') ? 'active-nav' : '' }}" href="/dashboard">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
                         Dashboard
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('/laporan') ? 'active-nav' : '' }}" href="/laporan">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('laporan') ? 'active-nav' : '' }}" href="/laporan">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 20V10M12 20V4M19 20v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
                         laporan
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('/kamar') ? 'active-nav' : '' }}" href="/kamar">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('kamar') ? 'active-nav' : '' }}" href="/kamar">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0 1 17 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Kamar
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/door-access">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('door-access') ? 'active-nav' : '' }}" href="/door-access">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Door Access
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/parents">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('parents') ? 'active-nav' : '' }}" href="/parents">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Parent
                     </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/parents">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('parents') ? 'active-nav' : '' }}" href="/parents">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Pembayaran
                     </a>
