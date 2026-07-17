@@ -1,58 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Penyewaan API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Create Penyewaan
 
-## About Laravel
+Endpoint ini digunakan untuk membuat transaksi penyewaan kamar baru.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Endpoint
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```http
+POST /api/penyewaan
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## Request Body
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```json
+{
+    "penyewa_id": 1,
+    "kamar_id": 5,
+    "start": "2026-07-20",
+    "end": "2026-08-20"
+}
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Response Success
 
-## Security Vulnerabilities
+### HTTP Status
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+201 Created
+```
 
-## License
+### Response JSON
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "success": true,
+    "message": "Penyewaan berhasil",
+    "snap_token": "SNAP_TOKEN",
+    "data": {
+        "penyewaan": {
+            "id": 1,
+            "penyewa_id": 1,
+            "kamar_id": 5,
+            "start": "2026-07-20",
+            "end": "2026-08-20",
+            "status_sewa": "PENDING"
+        },
+        "pembayaran": {
+            "id": 1,
+            "penyewaan_id": 1,
+            "tanggal_bayar": null,
+            "jenis_pembayaran": "awal",
+            "periode": 1,
+            "nominal": 1500000,
+            "status_bayar": "pending",
+            "snap_token": "SNAP_TOKEN",
+            "jatuh_tempo": "2026-07-18"
+        }
+    }
+}
+```
+
+---
+
+# Response Error
+
+## User Tidak Ditemukan
+
+### HTTP Status
+
+```
+404 Not Found
+```
+
+### Response JSON
+
+```json
+{
+    "success": false,
+    "message": "User tidak ditemukan"
+}
+```
+
+---
+
+## Validation Error
+
+### HTTP Status
+
+```
+422 Unprocessable Entity
+```
+
+### Response JSON
+
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "penyewa_id": [
+            "The penyewa id field is required."
+        ],
+        "kamar_id": [
+            "The kamar id field is required."
+        ],
+        "start": [
+            "The start field is required."
+        ],
+        "end": [
+            "The end field is required."
+        ]
+    }
+}
+```
+
+---
+
+## Server Error
+
+### HTTP Status
+
+```
+500 Internal Server Error
+```
+
+### Response JSON
+
+```json
+{
+    "success": false,
+    "message": "Error message",
+    "line": 120
+}
+```
