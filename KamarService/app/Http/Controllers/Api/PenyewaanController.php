@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PenyewaanController extends Controller
 {
@@ -35,7 +36,7 @@ public function store(Request $request)
         'penyewa_id' => 'required',
         'kamar_id'   => 'required',
         'start'      => 'required|date',
-        'end'        => 'required|date|after:start',
+        'periode'    => 'required|integer|min:1|max:12',
     ]);
 
     DB::beginTransaction();
@@ -99,6 +100,16 @@ public function store(Request $request)
         $user = $response->json() ['data'];
 
         // ==========================
+        // Hitung tanggal selesai
+        // ==========================
+        $periode = (int) $request->periode;
+
+        
+        $start = Carbon::parse($request->start);
+        $end = $start->copy()->addMonths($request->$periode);
+
+
+        // ==========================
         // Simpan Penyewaan
         // ==========================
 
@@ -108,9 +119,9 @@ public function store(Request $request)
 
             'kamar_id'=>$request->kamar_id,
 
-            'start'=>$request->start,
+            'start'=>$start,
 
-            'end'=>$request->end,
+            'end'=>$end,
 
             'status_sewa'=>'PENDING'
 
@@ -123,7 +134,9 @@ public function store(Request $request)
 
         $penyewaan->load('kamar.typeRoom');
 
-        $harga = $penyewaan->kamar->typeRoom->price;
+        $hargaPerBulan = $penyewaan->kamar->typeRoom->price;
+
+        $totalHarga = $hargaPerBulan * $periode;
 
         // ==========================
         // Simpan Pembayaran
@@ -137,9 +150,9 @@ public function store(Request $request)
 
             'jenis_pembayaran'=>'awal',
 
-            'periode'=>1,
+            'periode'=>$periode,
 
-            'nominal'=>$harga,
+            'nominal'=>$totalHarga,
 
             'status_bayar'=>'pending',
 
@@ -159,7 +172,7 @@ public function store(Request $request)
 
                 'order_id'=>$orderId,
 
-                'gross_amount'=>$harga
+                'gross_amount'=>$totalHarga
 
             ],
 
@@ -177,9 +190,9 @@ public function store(Request $request)
 
                     'id'=>$penyewaan->kamar_id,
 
-                    'price'=>$harga,
+                    'price'=>$hargaPerBulan,
 
-                    'quantity'=>1,
+                    'quantity'=>$periode,
 
                     'name'=>'Sewa Kamar'
 
@@ -286,9 +299,11 @@ public function store(Request $request)
             'penyewa_id' => 'required|integer',
             'kamar_id' => 'required|exists:kamars,id',
             'start' => 'required|date',
-            'end' => 'required|date|after_or_equal:start',
+            'periode'    => 'required|integer|min:1|max:12',
             'status_sewa' => 'required|in:Pending,Aktif,Batal,Selesai'
         ]);
+        $validated['end'] = Carbon::parse($validated['start'])
+        ->addMonths($validated['periode']);
 
         $penyewaan->update($validated);
 
@@ -331,6 +346,125 @@ public function store(Request $request)
             'success' => true,
             'message' => 'Data penyewaan berdasarkan penyewa',
             'data' => $data
+        ]);
+    }
+
+    public function perpanjang(Request $request,$id)
+    {
+        $request->validate([
+            'periode'=>'required|integer|min:1|max:12'
+        ]);
+
+        $penyewaan = Penyewaan::with('kamar.typeRoom')
+        ->find($id);
+
+        if(!$penyewaan){
+
+            return response()->json([
+                'success'=>false,
+                'message'=>'Penyewaan tidak ditemukan'
+            ],404);
+
+        }
+
+        $hargaPerBulan = $penyewaan->kamar->typeRoom->price;
+
+        $total = $hargaPerBulan * (int)$request->periode;
+
+        Config::$serverKey=config('midtrans.serverKey');
+
+        Config::$isProduction=config('midtrans.isProduction');
+
+        Config::$isSanitized=true;
+
+        Config::$is3ds=true;
+
+        $response = Http::get(
+
+        "http://host.docker.internal/api/users/"
+
+        .$penyewaan->penyewa_id
+
+        );
+
+        $user=$response->json()['data'];
+
+        $pembayaran = Pembayaran::create([
+
+        'penyewaan_id'=>$penyewaan->id,
+
+        'tanggal_bayar'=>null,
+
+        'jenis_pembayaran'=>'perpanjangan',
+
+        'periode'=>$request->periode,
+
+        'nominal'=>$total,
+
+        'status_bayar'=>'pending',
+
+        'jatuh_tempo'=>now()->addMinutes(2)
+
+        ]);
+
+        $orderId='ORDER-'.$pembayaran->id.'-'.time();
+
+                $params=[
+
+        'transaction_details'=>[
+
+        'order_id'=>$orderId,
+
+        'gross_amount'=>$total
+
+        ],
+
+        'customer_details'=>[
+
+        'first_name'=>$user['name'],
+
+        'email'=>$user['email']
+
+        ],
+
+        'item_details'=>[[
+
+        'id'=>$penyewaan->kamar_id,
+
+        'price'=>$hargaPerBulan,
+
+        'quantity'=>$request->periode,
+
+        'name'=>'Perpanjangan Sewa'
+
+        ]],
+
+        'expiry'=>[
+
+        'start_time'=>date('Y-m-d H:i:s O'),
+
+        'unit'=>'minute',
+
+        'duration'=>2
+
+        ]
+
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+$pembayaran->order_id = $orderId;
+$pembayaran->snap_token = $snapToken;
+$pembayaran->save();
+
+                return response()->json([
+
+        'success'=>true,
+
+        'message'=>'Silahkan lakukan pembayaran',
+
+        'snap_token'=>$snapToken
+
         ]);
     }
 }

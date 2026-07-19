@@ -32,9 +32,20 @@ class LaporanController extends Controller
         }
 
         
-        
+         $laporanResponse = Http::get(
+        "http://host.docker.internal:8001/api/laporan/penyewa/".$userId
+    );
 
-        return view('dashboard.laporan',compact('penyewaan'));
+    $laporans = [];
+
+    if($laporanResponse->successful()){
+        $laporans = $laporanResponse->json()['data'];
+    }
+
+    return view('dashboard.laporan', compact(
+        'penyewaan',
+        'laporans'
+    ));
 
     }
 

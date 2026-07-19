@@ -44,7 +44,7 @@ public function sewa(Request $request)
                 'penyewa_id' => $request->penyewa_id,
                 'kamar_id'    => $request->kamar_id,
                 'start'       => $request->start,
-                'end'         => $request->end,
+                'periode'    => $request->periode,
             ]
         );
         

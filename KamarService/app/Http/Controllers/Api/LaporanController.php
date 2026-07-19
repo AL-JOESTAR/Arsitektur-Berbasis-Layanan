@@ -112,4 +112,19 @@ class LaporanController extends Controller
     ]);
 
     }
+
+    public function getByPenyewa($penyewaId)
+    {
+        $laporan = Laporan::with('penyewaan.kamar')
+            ->whereHas('penyewaan', function ($q) use ($penyewaId) {
+                $q->where('penyewa_id', $penyewaId);
+            })
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $laporan
+        ]);
+    }
 }

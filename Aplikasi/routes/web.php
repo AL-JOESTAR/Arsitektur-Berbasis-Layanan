@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminDoor;
 use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminLaporanController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\DoorController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ParentController;
+use App\Http\Controllers\PerpanjanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrController;
 use App\Http\Middleware\QrMiddleware;
@@ -64,9 +66,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
 
     //dashboard
-    Route::get('/admin/dashboard', function(){
-        return view('dashboard_admin.dashboard');
-    })
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])
     ->middleware(['auth'])
     ->name('admin.dashboard');
 
@@ -108,3 +108,16 @@ Route::middleware('auth')->group(function(){
     Route::get('/door-access/{reader}',
         [DoorController::class,'scan'])->name('door.scan');
 });
+
+// Perpanjangan
+Route::get('/perpanjang/{id}',
+
+[PerpanjanganController::class,'index'])
+
+->name('perpanjang.index');
+
+Route::post('/perpanjang/{id}',
+
+[PerpanjanganController::class,'store'])
+
+->name('perpanjang.store');

@@ -392,107 +392,126 @@
       
     <div class="container-fluid mt-4">
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <div class="row">
-
-        @foreach($kamars as $kamar)
-        @if($kamar['status_kamar'] == 'Tersedia')
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        Kamar {{ $kamar['Nomor_Kamar'] }}
-                    </h5>
-
-                    @if(isset($kamar['type_room']['price']))
-                        <p class="mb-1">
-                            <strong>Harga :</strong>
-                            Rp {{ number_format($kamar['type_room']['price']) }}
-                        </p>
-                    @endif
-
-                    @if(isset($kamar['status_kamar']))
-                        <p class="mb-3">
-                            <strong>Status :</strong>
-                            {{ $kamar['status_kamar'] }}
-                        </p>
-                    @endif
-
-                    <form action="{{ url('/sewa') }}" method="POST">
-
-                        @csrf
-
-                        <input
-                            type="hidden"
-                            name="penyewa_id"
-                            value="{{ auth()->user()->id }}"
-                        >
-
-                        <input
-                            type="hidden"
-                            name="kamar_id"
-                            value="{{ $kamar['id'] }}"
-                        >
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Tanggal Mulai
-                            </label>
-
-                            <input
-                                type="date"
-                                name="start"
-                                class="form-control"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Tanggal Selesai
-                            </label>
-
-                            <input
-                                type="date"
-                                name="end"
-                                class="form-control"
-                                required
-                            >
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-success w-100"
-                        >
-                            Konfirmasi Sewa
-                        </button>
-
-                    </form>
-
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <div class="row">
+
+                @foreach($kamars as $kamar)
+
+                    @if($kamar['status_kamar'] == 'Tersedia')
+
+                    <div class="col-lg-4 mb-4">
+
+                        <div class="card shadow-sm h-100">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+                                    Kamar {{ $kamar['Nomor_Kamar'] }}
+                                </h5>
+
+                                <hr>
+
+                                <p>
+                                    <strong>Harga / Bulan :</strong><br>
+                                    <span class="text-success fw-bold">
+                                        Rp {{ number_format($kamar['type_room']['price']) }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    <strong>Status :</strong>
+                                    <span class="badge bg-success">
+                                        {{ $kamar['status_kamar'] }}
+                                    </span>
+                                </p>
+
+                                <form action="{{ url('/sewa') }}" method="POST">
+
+                                    @csrf
+
+                                    <input type="hidden"
+                                        name="penyewa_id"
+                                        value="{{ auth()->user()->id }}">
+
+                                    <input type="hidden"
+                                        name="kamar_id"
+                                        value="{{ $kamar['id'] }}">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Tanggal Mulai
+                                        </label>
+
+                                        <input
+                                            type="date"
+                                            name="start"
+                                            class="form-control"
+                                            required>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Lama Sewa
+                                        </label>
+
+                                        <select
+                                            name="periode"
+                                            class="form-select"
+                                            required>
+
+                                            <option value="">-- Pilih Periode --</option>
+
+                                            @for($i = 1; $i <= 12; $i++)
+                                                <option value="{{ $i }}">
+                                                    {{ $i }} Bulan
+                                                </option>
+                                            @endfor
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="alert alert-info py-2">
+                                        <small>
+                                            Tanggal selesai akan dihitung otomatis sesuai periode yang dipilih.
+                                        </small>
+                                    </div>
+
+                                    <button
+                                        class="btn btn-success w-100"
+                                        type="submit">
+
+                                        Konfirmasi Sewa
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @endif
+
+                @endforeach
 
             </div>
-
-        </div>
-        @endif
-        @endforeach
-
-    </div>
 
 </div>
 </section>
@@ -551,11 +570,6 @@
       <span>{{ Auth::user()->name }}</span>
     </div>
   </div>
-
-    <form method="POST" action="/logout">
-    @csrf
-    <button type="submit">Logout</button>
-</footer>
 
 <script
     type="text/javascript"

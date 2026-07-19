@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PembayaranController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PenyewaanController;
 use App\Http\Controllers\Api\MidtransController;
+use App\Http\Controllers\PerpanjangController;
 
 Route::prefix('penyewaans')->group(function () {
     Route::get('/penyewa/{penyewa_id}', [PenyewaanController::class, 'getByPenyewa']);
@@ -16,6 +17,9 @@ Route::prefix('penyewaans')->group(function () {
     Route::put('/{id}', [PenyewaanController::class, 'update']);
     Route::patch('/{id}', [PenyewaanController::class, 'update']);
     Route::delete('/{id}', [PenyewaanController::class, 'destroy']);
+    
+    Route::post('/{id}/perpanjang',
+    [PenyewaanController::class,'perpanjang']);
 });
 
 Route::get('/pembayaran/{id}/snap-token', [PembayaranController::class, 'generateSnapToken']);
@@ -31,6 +35,7 @@ Route::get('/laporan',[LaporanController::class,'index']);
 Route::post('/laporan',[LaporanController::class,'store']);
 
 Route::put('/laporan/{id}',[LaporanController::class,'update']);
+Route::get('/laporan/penyewa/{id}', [LaporanController::class, 'getByPenyewa']);
 
 //kamar
 

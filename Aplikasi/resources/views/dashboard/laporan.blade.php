@@ -64,4 +64,83 @@
     </div>
 
 </div>
+
+
+<hr class="my-5">
+
+<h4>Riwayat Laporan</h4>
+
+@if(count($laporans))
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+            <th>No</th>
+            <th>Kamar</th>
+            <th>Deskripsi</th>
+            <th>Status</th>
+            <th>Tanggal</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    @foreach($laporans as $laporan)
+
+        <tr>
+
+            <td>{{ $loop->iteration }}</td>
+
+            <td>
+                {{ $laporan['penyewaan']['kamar']['Nomor_Kamar'] }}
+            </td>
+
+            <td>{{ $laporan['deskripsi'] }}</td>
+
+            <td>
+
+    @if($laporan['status_laporan'] == 'menunggu')
+
+        <span class="badge bg-warning">
+            Menunggu
+        </span>
+
+    @elseif($laporan['status_laporan'] == 'diproses')
+
+        <span class="badge bg-primary">
+            Diproses
+        </span>
+
+    @elseif($laporan['status_laporan'] == 'selesai')
+
+        <span class="badge bg-success">
+            Selesai
+        </span>
+
+    @endif
+
+</td>
+
+            <td>
+                {{ \Carbon\Carbon::parse($laporan['created_at'])->format('d-m-Y H:i') }}
+            </td>
+
+        </tr>
+
+    @endforeach
+
+    </tbody>
+
+</table>
+
+@else
+
+<div class="alert alert-info">
+    Belum ada laporan.
+</div>
+
+@endif
 @endsection

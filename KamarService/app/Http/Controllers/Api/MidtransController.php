@@ -7,6 +7,8 @@ use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 
 class MidtransController extends Controller
 {
@@ -41,6 +43,17 @@ class MidtransController extends Controller
             ($status == 'capture' && $fraud == 'accept')
         ) {
             $pembayaran->status_bayar = 'paid';
+            if($pembayaran->jenis_pembayaran=='perpanjangan'){
+
+                $penyewaan = $pembayaran->penyewaan;
+
+                $penyewaan->end = Carbon::parse($penyewaan->end)
+
+                                ->addMonths($pembayaran->periode);
+
+                $penyewaan->save();
+
+            }
             $pembayaran->tanggal_bayar = now();
             $pembayaran->save();
 

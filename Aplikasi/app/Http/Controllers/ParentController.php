@@ -11,16 +11,15 @@ class ParentController extends Controller
 {
       public function index()
     {
-        $parents = ParentModel::all();
+        $parent = Auth::user()->parent;
 
-        return view('dashboard.parent', compact('parents'));
+        return view('dashboard.parent', compact('parent'));
     }
 
     public function create()
     {
-        $parents = ParentModel::all();
 
-        return view('dashboard.parent', compact('parents'));
+        return view('dashboard.parent',);
     }
 
     public function store(Request $request)
@@ -49,15 +48,14 @@ class ParentController extends Controller
 
     public function edit($id)
     {
-        $parent = ParentModel::findOrFail($id);
-        $parents = ParentModel::all();
+        $parent =  Auth::user()->parent;
 
-        return view('dashboard.parent', compact('parent', 'parents'));
+        return view('dashboard.parent', compact('parent'));
     }
 
     public function update(Request $request, $id)
     {
-        $parent = ParentModel::findOrFail($id);
+        $parent = Auth::user()->parent;
 
         $request->validate([
             'nama'  => 'required',
@@ -77,7 +75,12 @@ class ParentController extends Controller
 
     public function destroy($id)
     {
-        $parent = ParentModel::findOrFail($id);
+        $parent = Auth::user()->parent;
+
+          Auth::user()->update([
+            'parent_id' => null
+        ]);
+
         $parent->delete();
 
         return redirect()->route('parents.index')

@@ -76,13 +76,10 @@
 
                             <tr>
 
-                                <th>No</th>
                                 <th>User</th>
                                 <th>Reader</th>
-                                <th>Tipe</th>
                                 <th>Scan Time</th>
                                 <th>Status</th>
-                                <th>Reason</th>
 
                             </tr>
 
@@ -93,14 +90,10 @@
                         @forelse($logs as $log)
 
                         <tr>
-
-                            <td>{{ $loop->iteration }}</td>
-
                             <td>{{ $log->user->name }}</td>
 
                             <td>{{ $log->reader->reader_name }}</td>
 
-                            <td>{{ $log->reader->reader_type }}</td>
 
                             <td>{{ $log->scan_time }}</td>
 
@@ -120,9 +113,7 @@
 
                                 @endif
 
-                            </td>
-
-                            <td>{{ $log->reason }}</td>
+                            </td>   
 
                         </tr>
 

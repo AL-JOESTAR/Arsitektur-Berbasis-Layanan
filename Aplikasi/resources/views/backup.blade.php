@@ -77,7 +77,7 @@
   .hero{ position:relative; overflow:hidden; padding-top:64px; }
   .hero-grid{
     display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
-    padding-bottom:56px;
+    padding-bottom:120px;
   }
   .eyebrow{
     font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase;
@@ -97,23 +97,44 @@
   .hero-art{ position:relative; }
   .hero-art svg{ width:100%; height:auto; }
 
-  /* ---------- TRUST LINE (pengganti stats/search yang dihapus) ---------- */
-  .trust-line{
-    border-top:1px solid var(--line);
-    padding:26px 0;
+  /* floating key tag on hero art */
+  .floating-tag{
+    position:absolute; bottom:18px; left:-18px;
+    background:var(--white); border:1px solid var(--line);
+    padding:14px 18px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 18px 40px -20px rgba(30,42,34,.35);
+    animation:float 5s ease-in-out infinite;
   }
-  .trust-line .wrap{
-    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
-    gap:14px 28px;
+  @keyframes float{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-9px);} }
+  .tag-dot{ width:34px; height:34px; border-radius:50%; background:conic-gradient(from 200deg, var(--jati), var(--brass), var(--jati)); flex-shrink:0; }
+  .floating-tag .t1{ font-size:13px; font-weight:600; }
+  .floating-tag .t2{ font-size:11.5px; color:var(--ink-soft); }
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--paper-deep);
   }
-  .trust-line span{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em;
-    color:var(--ink-soft); display:flex; align-items:center; gap:14px;
+  .stats .wrap{ display:grid; grid-template-columns:repeat(4,1fr); }
+  .stat{ padding:30px 0; text-align:center; border-left:1px solid var(--line); }
+  .stat:first-child{ border-left:none; }
+  .stat .num{ font-family:'Fraunces',serif; font-size:30px; font-weight:560; color:var(--moss); }
+  .stat .label{ font-size:12.5px; color:var(--ink-soft); margin-top:4px; letter-spacing:.02em; }
+
+  /* ---------- SEARCH PANEL ---------- */
+  .search-wrap{ margin-top:-70px; position:relative; z-index:10; padding-bottom:90px; }
+  .search-panel{
+    background:var(--white); border:1px solid var(--line);
+    box-shadow:0 30px 60px -30px rgba(30,42,34,.3);
+    padding:30px; display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:22px; align-items:end;
   }
-  .trust-line span b{ color:var(--moss); font-weight:600; }
-  .trust-line .sep{
-    width:4px; height:4px; border-radius:50%; background:var(--line); display:inline-block;
+  .field label{ display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); margin-bottom:9px; font-family:'IBM Plex Mono', monospace;}
+  .field select{
+    width:100%; appearance:none; background:transparent; border:none; border-bottom:1px solid var(--line);
+    padding:8px 0; font-size:16px; font-family:'Fraunces', serif; color:var(--ink); cursor:pointer;
   }
+  .field select:focus{ outline:none; border-color:var(--moss); }
+  .search-btn{ white-space:nowrap; padding:14px 30px; }
 
   /* ---------- SECTION HEADER ---------- */
   .section{ padding:90px 0; }
@@ -127,6 +148,35 @@
   .feature svg{ width:30px; height:30px; color:var(--moss); margin-bottom:22px; }
   .feature h3{ font-family:'Fraunces', serif; font-size:19px; font-weight:560; margin-bottom:10px; }
   .feature p{ font-size:14px; color:var(--ink-soft); line-height:1.65; }
+
+  /* ---------- LISTING CARDS ---------- */
+  .listing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .card{
+    background:var(--white); border:1px solid var(--line);
+    display:flex; flex-direction:column; overflow:hidden;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .card:hover{ transform:translateY(-6px); box-shadow:0 28px 50px -28px rgba(30,42,34,.35); }
+  .card-art{ position:relative; height:190px; overflow:hidden; }
+  .card-art .bg{ position:absolute; inset:0; }
+  .card-art svg.room-icon{ position:absolute; right:18px; bottom:18px; width:46px; height:46px; opacity:.9; }
+  .wood-tag{
+    position:absolute; top:16px; left:16px; background:rgba(255,253,248,.92);
+    padding:6px 12px; display:flex; align-items:center; gap:8px; font-size:11px;
+  }
+  .wood-swatch{ width:10px; height:10px; border-radius:50%; }
+  .card-body{ padding:24px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .card-body .loc{ font-size:12px; color:var(--ink-soft); display:flex; align-items:center; gap:6px; }
+  .card-body h3{ font-family:'Fraunces', serif; font-size:21px; font-weight:560; }
+  .amenities{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+  .amenities span{ font-size:11px; color:var(--ink-soft); border:1px solid var(--line); padding:4px 9px; }
+  .card-foot{
+    margin-top:auto; padding-top:16px; border-top:1px solid var(--line);
+    display:flex; align-items:baseline; justify-content:space-between;
+  }
+  .price{ font-family:'Fraunces',serif; font-size:19px; font-weight:560; color:var(--moss); }
+  .price span{ font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-soft); font-weight:400; }
+  .card-foot a{ font-size:13px; font-weight:600; border-bottom:1px solid var(--ink); padding-bottom:2px; }
 
   /* ---------- TESTIMONIAL ---------- */
   .testi{ background:var(--moss); color:var(--white); }
@@ -157,10 +207,14 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:880px){
     .nav-links, .hero-cta .btn-ghost{ display:none; }
-    .hero-grid{ grid-template-columns:1fr; padding-bottom:40px; }
+    .hero-grid{ grid-template-columns:1fr; padding-bottom:80px; }
     .hero-art{ order:-1; }
-    .trust-line .wrap{ gap:10px 18px; }
+    .stats .wrap{ grid-template-columns:repeat(2,1fr); }
+    .stat:nth-child(3){ border-left:none; }
+    .search-panel{ grid-template-columns:1fr 1fr; }
+    .search-btn{ grid-column:span 2; }
     .features{ grid-template-columns:1fr; }
+    .listing-grid{ grid-template-columns:1fr; }
     .testi .wrap{ grid-template-columns:1fr; padding:60px 24px; }
     .testi-mark{ display:none; }
     .foot-grid{ grid-template-columns:1fr 1fr; }
@@ -257,19 +311,62 @@
         <circle cx="350" cy="320" r="3" fill="#5C6B4F"/>
         <path d="M350 320 C340 300 330 300 320 285 M350 320 C355 300 365 298 372 280 M350 320 C350 295 350 290 350 270" stroke="#5C6B4F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
       </svg>
-    </div>
-  </div>
 
-  <div class="trust-line">
-    <div class="wrap">
-      <span><b>186+</b> Kos Terverifikasi</span>
-      <span class="sep"></span>
-      <span><b>14</b> Kota di Indonesia</span>
-      <span class="sep"></span>
-      <span><b>4.8</b>/5 Rating Rata-rata</span>
+      <!-- <div class="floating-tag">
+        <div class="tag-dot"></div>
+        <div>
+          <div class="t1">Kos Jati No. 12</div>
+          <div class="t2 mono">SIAP HUNI · 1 JUL</div>
+        </div> -->
+      </div>
     </div>
   </div>
 </section>
+
+<!-- <section class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="num display">186</div><div class="label">Kos Terverifikasi</div></div>
+    <div class="stat"><div class="num display">14</div><div class="label">Kota di Indonesia</div></div>
+    <div class="stat"><div class="num display">4.8</div><div class="label">Rating Rata-rata</div></div>
+    <div class="stat"><div class="num display">2 jam</div><div class="label">Rata-rata Respon Survei</div></div>
+  </div>
+</section>
+
+<div class="search-wrap">
+  <div class="wrap">
+    <div class="search-panel reveal">
+      <div class="field">
+        <label>Area</label>
+        <select>
+          <option>Pilih kota atau kawasan</option>
+          <option>Jakarta Selatan</option>
+          <option>Bandung Utara</option>
+          <option>BSD City, Tangerang</option>
+          <option>Yogyakarta</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tipe Kamar</label>
+        <select>
+          <option>Semua tipe</option>
+          <option>Kos Putri</option>
+          <option>Kos Putra</option>
+          <option>Kos Campur</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Anggaran / Bulan</label>
+        <select>
+          <option>Semua anggaran</option>
+          <option>Rp 1 — 2 juta</option>
+          <option>Rp 2 — 3,5 juta</option>
+          <option>Rp 3,5 juta ke atas</option>
+        </select>
+      </div>
+      <a class="btn btn-primary search-btn">Cari Kos</a>
+    </div>
+  </div>
+</div> -->
 
 <section class="section" id="kenapa">
   <div class="wrap">
@@ -301,8 +398,8 @@
   <div class="wrap">
     <div class="testi-mark">"</div>
     <div>
-      <blockquote>Pindah ke Kos E-Kos itu satu-satunya keputusan tahun ini yang nggak pernah saya sesali. Pemiliknya sigap, dan suratnya benar-benar jelas — nggak ada drama di akhir bulan.</blockquote>
-      <cite>Ranti A. — Penghuni Kos E-Kos, Bandung, sejak 2024</cite>
+      <blockquote>Pindah ke Kos Saka itu satu-satunya keputusan tahun ini yang nggak pernah saya sesali. Pemiliknya sigap, dan suratnya benar-benar jelas — nggak ada drama di akhir bulan.</blockquote>
+      <cite>Ranti A. — Penghuni Kos Saka, Bandung, sejak 2024</cite>
     </div>
   </div>
 </section>
@@ -353,15 +450,5 @@
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<script>
-  var header = document.getElementById('siteHeader');
-  function updateHeaderShadow(){
-    if (window.scrollY > 8) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
-  }
-  window.addEventListener('scroll', updateHeaderShadow, { passive: true });
-  updateHeaderShadow();
-</script>
 </body>
 </html>
