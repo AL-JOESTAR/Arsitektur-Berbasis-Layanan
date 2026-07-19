@@ -412,10 +412,10 @@
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Parent
                     </a>
-                    <!-- <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('parents') ? 'active-nav' : '' }}" href="/parents">
+                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('pembayaran') ? 'active-nav' : '' }}" href="/pembayaran">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Pembayaran
-                    </a> -->
+                    </a>
                 </div>
                 <div class="sidebar-footer">
                     <small>&copy; {{ date('Y') }} &middot; E-Kos</small>

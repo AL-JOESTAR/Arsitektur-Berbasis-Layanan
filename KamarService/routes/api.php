@@ -24,6 +24,11 @@ Route::prefix('penyewaans')->group(function () {
 
 Route::get('/pembayaran/{id}/snap-token', [PembayaranController::class, 'generateSnapToken']);
 
+Route::get(
+    '/pembayaran/penyewa/{penyewaId}',
+    [PembayaranController::class, 'riwayatPenyewa']
+);
+
 Route::get('/kamar',[KamarController::class, 'index']);
 
 Route::post('/midtrans/callback',[MidtransController::class,'notification']);

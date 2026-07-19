@@ -121,3 +121,8 @@ Route::post('/perpanjang/{id}',
 [PerpanjanganController::class,'store'])
 
 ->name('perpanjang.store');
+
+Route::get(
+    '/pembayaran',
+    [KamarController::class,'riwayatPembayaran']
+)->middleware('auth');

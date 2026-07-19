@@ -56,4 +56,21 @@ class PembayaranController extends Controller
             ], 500);
         }
     }
+
+    public function riwayatPenyewa($penyewaId)
+{
+    $data = Pembayaran::with([
+        'penyewaan.kamar.typeRoom'
+    ])
+    ->whereHas('penyewaan', function ($q) use ($penyewaId) {
+        $q->where('penyewa_id', $penyewaId);
+    })
+    ->orderByDesc('created_at')
+    ->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $data
+    ]);
+}
 }

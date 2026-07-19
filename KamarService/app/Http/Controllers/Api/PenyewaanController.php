@@ -106,7 +106,7 @@ public function store(Request $request)
 
         
         $start = Carbon::parse($request->start);
-        $end = $start->copy()->addMonths($request->$periode);
+        $end = $start->copy()->addMonths($periode);
 
 
         // ==========================

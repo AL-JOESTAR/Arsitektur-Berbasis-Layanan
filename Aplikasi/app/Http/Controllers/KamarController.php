@@ -61,4 +61,20 @@ public function sewa(Request $request)
 
         return back()->with('error', 'Gagal membuat penyewaan');
     }
+
+    public function riwayatPembayaran()
+    {
+        $id = Auth::id();
+
+        $response = Http::get(
+            "http://host.docker.internal:8001/api/pembayaran/penyewa/".$id
+        );
+
+        $pembayarans = $response->json()['data'];
+
+        return view(
+            'dashboard.pembayaran',
+            compact('pembayarans')
+        );
+    }
 }

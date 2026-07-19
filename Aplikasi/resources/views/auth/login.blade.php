@@ -1,21 +1,32 @@
 <x-guest-layout>
 
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+    <div class="min-h-screen flex items-center justify-center bg-amber-50 dark:bg-emerald-950 px-4">
 
         <div class="w-full max-w-sm">
 
+            {{-- BRAND --}}
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center shadow-md shadow-amber-800/20 mb-3">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.5 8.5a3.5 3.5 0 1 0-3.916 3.478L4 18.56V21h3l3.5-3.5.94.94 2.06-2.06-.94-.94L14.5 12.5A3.5 3.5 0 0 0 14.5 8.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="15.5" cy="7.5" r="1.1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span class="font-serif text-lg font-semibold text-emerald-900 dark:text-amber-50">E-Kos</span>
+            </div>
+
             {{-- TITLE --}}
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                    Login
+                <h1 class="font-serif text-2xl font-semibold text-emerald-950 dark:text-white">
+                    Selamat Datang Kembali
                 </h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Masuk ke akun kamu
+                <p class="text-sm text-emerald-800/70 dark:text-amber-100/70 mt-1">
+                    Masuk ke akun kamu untuk melanjutkan
                 </p>
             </div>
 
             {{-- CARD --}}
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6">
+            <div class="bg-white dark:bg-emerald-900/40 shadow-sm border border-amber-900/10 dark:border-white/10 rounded-2xl p-6">
 
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -29,7 +40,7 @@
                             id="email"
                             type="email"
                             name="email"
-                            class="block mt-1 w-full rounded-lg border-gray-300 focus:border-gray-900 focus:ring-gray-900"
+                            class="block mt-1 w-full rounded-lg border-amber-900/20 focus:border-emerald-700 focus:ring-emerald-700"
                             :value="old('email')"
                             required
                             autofocus
@@ -45,7 +56,7 @@
                             id="password"
                             type="password"
                             name="password"
-                            class="block mt-1 w-full rounded-lg border-gray-300 focus:border-gray-900 focus:ring-gray-900"
+                            class="block mt-1 w-full rounded-lg border-amber-900/20 focus:border-emerald-700 focus:ring-emerald-700"
                             required
                             placeholder="••••••••"
                         />
@@ -56,15 +67,15 @@
                     <div class="flex items-center justify-between text-sm">
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="remember"
-                                class="rounded border-gray-300 text-gray-900 focus:ring-gray-900">
-                            <span class="ml-2 text-gray-600 dark:text-gray-400">
+                                class="rounded border-amber-900/30 text-emerald-800 focus:ring-emerald-700">
+                            <span class="ml-2 text-emerald-900/70 dark:text-amber-100/70">
                                 Remember me
                             </span>
                         </label>
 
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}"
-                               class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                               class="text-emerald-800/70 hover:text-emerald-900 dark:hover:text-white">
                                 Forgot?
                             </a>
                         @endif
@@ -72,7 +83,7 @@
 
                     {{-- BUTTON --}}
                     <button type="submit"
-                        class="w-full bg-gray-900 text-white py-2.5 rounded-lg hover:bg-gray-800 transition">
+                        class="w-full bg-emerald-800 text-dark py-2.5 rounded-lg hover:bg-dark-900 transition">
                         Login
                     </button>
 
@@ -81,9 +92,9 @@
             </div>
 
             {{-- FOOTER --}}
-            <p class="text-center text-sm text-gray-500 mt-4">
+            <p class="text-center text-sm text-emerald-900/60 dark:text-amber-100/60 mt-4">
                 Belum punya akun?
-                <a href="{{ route('register') }}" class="text-gray-900 font-medium hover:underline">
+                <a href="{{ route('register') }}" class="text-emerald-900 dark:text-amber-200 font-medium hover:underline">
                     Register
                 </a>
             </p>

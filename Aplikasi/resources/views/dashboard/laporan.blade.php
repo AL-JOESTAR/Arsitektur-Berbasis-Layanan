@@ -2,7 +2,7 @@
 
 @section('konten')
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
 
     <div class="row justify-content-center">
         <div class="col-lg-7">
@@ -24,7 +24,7 @@
             </div>
             @endif
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
                 <div class="card-body p-4">
 
                     <form method="POST" action="/laporan">
@@ -63,84 +63,96 @@
         </div>
     </div>
 
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-10">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">Riwayat Laporan</h4>
+                @if(count($laporans))
+                    <span class="badge bg-secondary">{{ count($laporans) }} Laporan</span>
+                @endif
+            </div>
+
+            @if(count($laporans))
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle mb-0">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">No</th>
+                                    <th>Kamar</th>
+                                    <th>Deskripsi</th>
+                                    <th>Status</th>
+                                    <th class="pe-3">Tanggal</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                            @foreach($laporans as $laporan)
+
+                                <tr>
+
+                                    <td class="ps-3">{{ $loop->iteration }}</td>
+
+                                    <td>
+                                        {{ $laporan['penyewaan']['kamar']['Nomor_Kamar'] }}
+                                    </td>
+
+                                    <td>{{ $laporan['deskripsi'] }}</td>
+
+                                    <td>
+
+                            @if($laporan['status_laporan'] == 'menunggu')
+
+                                <span class="badge bg-warning text-dark">
+                                    Menunggu
+                                </span>
+
+                            @elseif($laporan['status_laporan'] == 'diproses')
+
+                                <span class="badge bg-primary">
+                                    Diproses
+                                </span>
+
+                            @elseif($laporan['status_laporan'] == 'selesai')
+
+                                <span class="badge bg-success">
+                                    Selesai
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                                    <td class="pe-3">
+                                        {{ \Carbon\Carbon::parse($laporan['created_at'])->format('d-m-Y H:i') }}
+                                    </td>
+
+                                </tr>
+
+                            @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @else
+
+            <div class="alert alert-info mb-0">
+                Belum ada laporan.
+            </div>
+
+            @endif
+
+        </div>
+    </div>
+
 </div>
-
-
-<hr class="my-5">
-
-<h4>Riwayat Laporan</h4>
-
-@if(count($laporans))
-
-<table class="table table-bordered">
-
-    <thead>
-
-        <tr>
-            <th>No</th>
-            <th>Kamar</th>
-            <th>Deskripsi</th>
-            <th>Status</th>
-            <th>Tanggal</th>
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-    @foreach($laporans as $laporan)
-
-        <tr>
-
-            <td>{{ $loop->iteration }}</td>
-
-            <td>
-                {{ $laporan['penyewaan']['kamar']['Nomor_Kamar'] }}
-            </td>
-
-            <td>{{ $laporan['deskripsi'] }}</td>
-
-            <td>
-
-    @if($laporan['status_laporan'] == 'menunggu')
-
-        <span class="badge bg-warning">
-            Menunggu
-        </span>
-
-    @elseif($laporan['status_laporan'] == 'diproses')
-
-        <span class="badge bg-primary">
-            Diproses
-        </span>
-
-    @elseif($laporan['status_laporan'] == 'selesai')
-
-        <span class="badge bg-success">
-            Selesai
-        </span>
-
-    @endif
-
-</td>
-
-            <td>
-                {{ \Carbon\Carbon::parse($laporan['created_at'])->format('d-m-Y H:i') }}
-            </td>
-
-        </tr>
-
-    @endforeach
-
-    </tbody>
-
-</table>
-
-@else
-
-<div class="alert alert-info">
-    Belum ada laporan.
-</div>
-
-@endif
 @endsection
