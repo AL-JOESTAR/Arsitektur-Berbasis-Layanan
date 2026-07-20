@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Andara — Hunian Kos Pilihan</title>
+<title>E-Kos — Hunian Kos Pilihan</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,440;9..144,560;9..144,640&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
@@ -77,7 +77,7 @@
   .hero{ position:relative; overflow:hidden; padding-top:64px; }
   .hero-grid{
     display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
-    padding-bottom:120px;
+    padding-bottom:56px;
   }
   .eyebrow{
     font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase;
@@ -110,31 +110,23 @@
   .floating-tag .t1{ font-size:13px; font-weight:600; }
   .floating-tag .t2{ font-size:11.5px; color:var(--ink-soft); }
 
-  /* ---------- STAT STRIP ---------- */
-  .stats{
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    background:var(--paper-deep);
+  /* ---------- TRUST LINE ---------- */
+  .trust-line{
+    border-top:1px solid var(--line);
+    padding:26px 0;
   }
-  .stats .wrap{ display:grid; grid-template-columns:repeat(4,1fr); }
-  .stat{ padding:30px 0; text-align:center; border-left:1px solid var(--line); }
-  .stat:first-child{ border-left:none; }
-  .stat .num{ font-family:'Fraunces',serif; font-size:30px; font-weight:560; color:var(--moss); }
-  .stat .label{ font-size:12.5px; color:var(--ink-soft); margin-top:4px; letter-spacing:.02em; }
-
-  /* ---------- SEARCH PANEL ---------- */
-  .search-wrap{ margin-top:-70px; position:relative; z-index:10; padding-bottom:90px; }
-  .search-panel{
-    background:var(--white); border:1px solid var(--line);
-    box-shadow:0 30px 60px -30px rgba(30,42,34,.3);
-    padding:30px; display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:22px; align-items:end;
+  .trust-line .wrap{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:14px 28px;
   }
-  .field label{ display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); margin-bottom:9px; font-family:'IBM Plex Mono', monospace;}
-  .field select{
-    width:100%; appearance:none; background:transparent; border:none; border-bottom:1px solid var(--line);
-    padding:8px 0; font-size:16px; font-family:'Fraunces', serif; color:var(--ink); cursor:pointer;
+  .trust-line span{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em;
+    color:var(--ink-soft); display:flex; align-items:center; gap:14px;
   }
-  .field select:focus{ outline:none; border-color:var(--moss); }
-  .search-btn{ white-space:nowrap; padding:14px 30px; }
+  .trust-line span b{ color:var(--moss); font-weight:600; }
+  .trust-line .sep{
+    width:4px; height:4px; border-radius:50%; background:var(--line); display:inline-block;
+  }
 
   /* ---------- SECTION HEADER ---------- */
   .section{ padding:90px 0; }
@@ -142,48 +134,170 @@
   .section-head h2{ font-size:clamp(28px,3.4vw,38px); font-weight:440; max-width:480px; line-height:1.18; }
   .section-head p{ color:var(--ink-soft); max-width:300px; font-size:14.5px; padding-bottom:4px; }
 
-  /* ---------- FEATURES ---------- */
-  .features{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .feature{ background:var(--paper); padding:38px 32px; }
-  .feature svg{ width:30px; height:30px; color:var(--moss); margin-bottom:22px; }
-  .feature h3{ font-family:'Fraunces', serif; font-size:19px; font-weight:560; margin-bottom:10px; }
-  .feature p{ font-size:14px; color:var(--ink-soft); line-height:1.65; }
+  /* ---------- KOS PILIHAN (listing + form sewa, scrollable) ---------- */
+  .kos-section{ background:var(--paper-deep); }
 
-  /* ---------- LISTING CARDS ---------- */
-  .listing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
-  .card{
-    background:var(--white); border:1px solid var(--line);
-    display:flex; flex-direction:column; overflow:hidden;
-    transition:transform .35s ease, box-shadow .35s ease;
+  .kamar-scroll-hint{
+    display:flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.06em;
+    color:var(--ink-soft); margin-bottom:22px;
   }
-  .card:hover{ transform:translateY(-6px); box-shadow:0 28px 50px -28px rgba(30,42,34,.35); }
-  .card-art{ position:relative; height:190px; overflow:hidden; }
-  .card-art .bg{ position:absolute; inset:0; }
-  .card-art svg.room-icon{ position:absolute; right:18px; bottom:18px; width:46px; height:46px; opacity:.9; }
-  .wood-tag{
-    position:absolute; top:16px; left:16px; background:rgba(255,253,248,.92);
-    padding:6px 12px; display:flex; align-items:center; gap:8px; font-size:11px;
-  }
-  .wood-swatch{ width:10px; height:10px; border-radius:50%; }
-  .card-body{ padding:24px; display:flex; flex-direction:column; gap:10px; flex:1; }
-  .card-body .loc{ font-size:12px; color:var(--ink-soft); display:flex; align-items:center; gap:6px; }
-  .card-body h3{ font-family:'Fraunces', serif; font-size:21px; font-weight:560; }
-  .amenities{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
-  .amenities span{ font-size:11px; color:var(--ink-soft); border:1px solid var(--line); padding:4px 9px; }
-  .card-foot{
-    margin-top:auto; padding-top:16px; border-top:1px solid var(--line);
-    display:flex; align-items:baseline; justify-content:space-between;
-  }
-  .price{ font-family:'Fraunces',serif; font-size:19px; font-weight:560; color:var(--moss); }
-  .price span{ font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-soft); font-weight:400; }
-  .card-foot a{ font-size:13px; font-weight:600; border-bottom:1px solid var(--ink); padding-bottom:2px; }
+  .kamar-scroll-hint svg{ width:14px; height:14px; }
 
-  /* ---------- TESTIMONIAL ---------- */
-  .testi{ background:var(--moss); color:var(--white); }
-  .testi .wrap{ padding:90px 32px; display:grid; grid-template-columns:.6fr 1fr; gap:50px; align-items:center; }
-  .testi blockquote{ font-family:'Fraunces',serif; font-size:clamp(24px,2.8vw,32px); font-weight:300; font-style:italic; line-height:1.4; }
-  .testi cite{ display:block; margin-top:26px; font-style:normal; font-size:14px; color:var(--brass-light); }
-  .testi-mark{ font-family:'Fraunces',serif; font-size:120px; line-height:1; color:var(--moss-light); opacity:.6; }
+  .kamar-scroll-outer{ position:relative; }
+  .kamar-scroll-wrap{
+    display:flex;
+    gap:24px;
+    overflow-x:auto;
+    padding-bottom:18px;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:thin;
+    scrollbar-color:var(--brass) var(--paper);
+  }
+  .kamar-scroll-wrap::-webkit-scrollbar{ height:8px; }
+  .kamar-scroll-wrap::-webkit-scrollbar-track{ background:var(--paper); border-radius:8px; }
+  .kamar-scroll-wrap::-webkit-scrollbar-thumb{ background:var(--brass); border-radius:8px; }
+
+  .kamar-slide{
+    flex:0 0 320px;
+    scroll-snap-align:start;
+  }
+
+  .kamar-scroll-outer::after{
+    content:'';
+    position:absolute;
+    top:0; right:0; bottom:18px;
+    width:60px;
+    background:linear-gradient(to right, rgba(236,229,214,0), var(--paper-deep) 85%);
+    pointer-events:none;
+  }
+
+  #kos .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow:0 16px 34px -26px rgba(30,42,34,.35);
+    height:100%;
+  }
+  #kos .card-title{
+    font-family:'Fraunces', serif; font-size:20px; font-weight:560; color:var(--ink);
+  }
+  #kos hr{ border-color:var(--line); opacity:1; }
+  #kos .badge.bg-success{ background:var(--moss) !important; border-radius:2px; font-weight:500; }
+  #kos .text-success{ color:var(--moss) !important; }
+  #kos .form-label{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace; font-weight:500;
+  }
+  #kos .form-control, #kos .form-select{
+    border-color:var(--line); border-radius:2px; font-size:14.5px;
+  }
+  #kos .form-control:focus, #kos .form-select:focus{
+    border-color:var(--moss); box-shadow:0 0 0 3px rgba(47,74,62,.12);
+  }
+  #kos .alert-info{
+    background:var(--paper); border:none; color:var(--ink-soft); border-radius:2px;
+  }
+  #kos .btn-success{
+    background:var(--moss); border-color:var(--moss); border-radius:2px; font-weight:500;
+    transition:background .2s ease;
+  }
+  #kos .btn-success:hover{ background:var(--ink); border-color:var(--ink); }
+
+  /* ---------- KENAPA (steps) ---------- */
+  .steps-section{
+    background:#233830;
+    color:var(--white);
+    padding:90px 0;
+  }
+  .steps-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--brass-light); margin-bottom:18px; font-weight:500;
+  }
+  .steps-heading{
+    font-family:'Fraunces', serif; font-weight:640; font-size:clamp(28px,3.6vw,42px);
+    line-height:1.15; max-width:620px; margin-bottom:18px;
+  }
+  .steps-sub{
+    color:rgba(243,239,230,.65); font-size:15.5px; max-width:480px; line-height:1.65; margin-bottom:64px;
+  }
+  .steps-row{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .steps-row::before{
+    content:'';
+    position:absolute;
+    top:27px;
+    left:70px;
+    right:70px;
+    border-top:2px dashed rgba(184,137,91,.45);
+    z-index:0;
+  }
+  .step{
+    position:relative;
+    z-index:1;
+    flex:1;
+    text-align:center;
+    padding:0 18px;
+  }
+  .step-icon{
+    width:56px; height:56px; border-radius:50%;
+    background:#233830;
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 26px;
+    color:var(--brass-light);
+  }
+  .step-icon svg{ width:24px; height:24px; }
+  .step h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:17px;
+    margin-bottom:10px; color:var(--white);
+  }
+  .step p{
+    font-size:13.5px; color:rgba(243,239,230,.6); line-height:1.7;
+    max-width:230px; margin:0 auto;
+  }
+
+  /* ---------- FITUR ---------- */
+  .fitur-section{
+    background:var(--white);
+    padding:90px 0;
+  }
+  .fitur-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .fitur-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px 28px;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .fitur-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 22px 40px -24px rgba(30,42,34,.25);
+    border-color:var(--brass);
+  }
+  .fitur-icon{
+    width:48px; height:48px; border-radius:12px;
+    background:var(--brass-light);
+    color:var(--jati);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px;
+  }
+  .fitur-icon svg{ width:22px; height:22px; }
+  .fitur-card h3{
+    font-family:'Fraunces', serif; font-size:18px; font-weight:600;
+    margin-bottom:8px; color:var(--ink);
+  }
+  .fitur-card p{
+    font-size:13.5px; color:var(--ink-soft); line-height:1.65;
+  }
 
   /* ---------- CTA BANNER ---------- */
   .cta-banner{ padding:100px 0; text-align:center; }
@@ -207,16 +321,13 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:880px){
     .nav-links, .hero-cta .btn-ghost{ display:none; }
-    .hero-grid{ grid-template-columns:1fr; padding-bottom:80px; }
+    .hero-grid{ grid-template-columns:1fr; padding-bottom:40px; }
     .hero-art{ order:-1; }
-    .stats .wrap{ grid-template-columns:repeat(2,1fr); }
-    .stat:nth-child(3){ border-left:none; }
-    .search-panel{ grid-template-columns:1fr 1fr; }
-    .search-btn{ grid-column:span 2; }
-    .features{ grid-template-columns:1fr; }
-    .listing-grid{ grid-template-columns:1fr; }
-    .testi .wrap{ grid-template-columns:1fr; padding:60px 24px; }
-    .testi-mark{ display:none; }
+    .kamar-slide{ flex-basis:82vw; }
+    .steps-row{ flex-direction:column; gap:36px; }
+    .steps-row::before{ display:none; }
+    .step p{ max-width:100%; }
+    .fitur-grid{ grid-template-columns:1fr; }
     .foot-grid{ grid-template-columns:1fr 1fr; }
     .wrap{ padding:0 20px; }
   }
@@ -232,12 +343,12 @@
           <path d="M5 14L15 5L25 14V25H5V14Z" stroke="#2F4A3E" stroke-width="1.6" stroke-linejoin="round"/>
           <path d="M12 25V17H18V25" stroke="#B8895B" stroke-width="1.6"/>
         </svg>
-        Andara
+        E-Kos
       </div>
       <div class="nav-links">
         <a href="#kos">Kos Pilihan</a>
-        <a href="#kenapa">Kenapa Andara</a>
-        <a href="#testimoni">Cerita Penghuni</a>
+        <a href="#kenapa">Kenapa E-Kos</a>
+        <a href="#fitur">Fitur E-Kos</a>
         <a href="#kontak">Kontak</a>
       </div>
       <div style="display:flex; gap:12px;">
@@ -258,7 +369,7 @@
     <div>
       <div class="eyebrow"><span class="dash"></span>Welcome {{Auth::user()->name}}</div>
       <h1 class="headline">Kos yang terasa <em>seperti pulang</em>, bukan sekadar kamar sewa.</h1>
-      <p class="lede">Andara memilihkan kos dengan tangan — pemilik yang ramah, kontrak yang jujur, dan kamar yang dirawat selayaknya rumah sendiri. Tinggal di 14 kota besar Indonesia.</p>
+      <p class="lede">Tempat untuk beristirahat dengan tenang, memulai hari dengan nyaman, dan menikmati setiap momen layaknya di rumah sendiri.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#kos">Lihat Kos Pilihan</a>
         <a class="btn btn-ghost" href="#kenapa">Bagaimana Cara Kerjanya</a>
@@ -304,93 +415,33 @@
       <div class="floating-tag">
         <div class="tag-dot"></div>
         <div>
-          <div class="t1">Kos Jati No. 12</div>
-          <div class="t2 mono">SIAP HUNI · 1 JUL</div>
+          <div class="t1">Tersedia 20 Kamar</div>
+          <div class="t2 mono">SIAP HUNI KAPAN SAJA</div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<section class="stats">
-  <div class="wrap">
-    <div class="stat"><div class="num display">186</div><div class="label">Kos Terverifikasi</div></div>
-    <div class="stat"><div class="num display">14</div><div class="label">Kota di Indonesia</div></div>
-    <div class="stat"><div class="num display">4.8</div><div class="label">Rating Rata-rata</div></div>
-    <div class="stat"><div class="num display">2 jam</div><div class="label">Rata-rata Respon Survei</div></div>
-  </div>
-</section>
-
-<div class="search-wrap">
-  <div class="wrap">
-    <div class="search-panel reveal">
-      <div class="field">
-        <label>Area</label>
-        <select>
-          <option>Pilih kota atau kawasan</option>
-          <option>Jakarta Selatan</option>
-          <option>Bandung Utara</option>
-          <option>BSD City, Tangerang</option>
-          <option>Yogyakarta</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Tipe Kamar</label>
-        <select>
-          <option>Semua tipe</option>
-          <option>Kos Putri</option>
-          <option>Kos Putra</option>
-          <option>Kos Campur</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Anggaran / Bulan</label>
-        <select>
-          <option>Semua anggaran</option>
-          <option>Rp 1 — 2 juta</option>
-          <option>Rp 2 — 3,5 juta</option>
-          <option>Rp 3,5 juta ke atas</option>
-        </select>
-      </div>
-      <a class="btn btn-primary search-btn">Cari Kos</a>
-    </div>
-  </div>
-</div>
-
-<section class="section" id="kenapa">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <h2>Tiga hal yang membedakan Andara dari sekadar listing kos.</h2>
-      <p>Bukan hanya foto bagus — kami yang turun langsung memastikan setiap kamar layak ditinggali.</p>
-    </div>
-    <div class="features reveal">
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12l-4-2-3 2-3-2-4 2V6a2 2 0 012-2z"/></svg>
-        <h3>Kontrak Jujur</h3>
-        <p>Surat sewa berbahasa jelas, tanpa biaya tersembunyi. Apa yang disepakati di awal, itu yang dibayar.</p>
-      </div>
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
-        <h3>Pemilik Terverifikasi</h3>
-        <p>Setiap pemilik kos kami temui langsung. Identitas dan legalitas bangunan diperiksa sebelum tayang.</p>
-      </div>
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4"/></svg>
-        <h3>Bantuan Pindahan</h3>
-        <p>Tim Andara membantu jadwal survei, negosiasi harga, hingga koordinasi pindahan di hari-H.</p>
-      </div>
+    <div class="trust-line">
+    <div class="wrap">
+      <span><b>100%</b> Kos Terverifikasi</span>
+      <span class="sep"></span>
+      <span><b>24/7</b>Keamanan & Akses</span>
+      <span class="sep"></span>
+      <span><b>4.8</b>/5 Rating Rata-rata</span>
     </div>
   </div>
 </section>
 
-<section class="section" id="kos" style="padding-top:0;">
+
+<section class="section kos-section" id="kos">
   <div class="wrap">
     <div class="section-head reveal">
       <h2>Kos pilihan minggu ini.</h2>
-      <p>Setiap kos kami beri nama kayu — caranya kami menandai karakter dan suasana tiap hunian.</p>
+      <p>Lebih dari sekadar nomor, setiap kamar dirancang untuk menghadirkan kenyamanan dengan nuansa yang berbeda.</p>
     </div>
-      
-    <div class="container-fluid mt-4">
+
+    <div class="container-fluid mt-4 px-0">
 
             @if(session('success'))
                 <div class="alert alert-success">
@@ -404,13 +455,19 @@
                 </div>
             @endif
 
-            <div class="row">
+            <div class="kamar-scroll-hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                Geser untuk lihat semua kamar yang tersedia
+            </div>
+
+            <div class="kamar-scroll-outer">
+                <div class="kamar-scroll-wrap">
 
                 @foreach($kamars as $kamar)
 
                     @if($kamar['status_kamar'] == 'Tersedia')
 
-                    <div class="col-lg-4 mb-4">
+                    <div class="kamar-slide">
 
                         <div class="card shadow-sm h-100">
 
@@ -511,17 +568,104 @@
 
                 @endforeach
 
+                </div>
             </div>
 
 </div>
+  </div>
 </section>
 
-<section class="testi" id="testimoni">
+<section class="steps-section" id="kenapa">
   <div class="wrap">
-    <div class="testi-mark">"</div>
-    <div>
-      <blockquote>Pindah ke Kos Saka itu satu-satunya keputusan tahun ini yang nggak pernah saya sesali. Pemiliknya sigap, dan suratnya benar-benar jelas — nggak ada drama di akhir bulan.</blockquote>
-      <cite>Ranti A. — Penghuni Kos Saka, Bandung, sejak 2024</cite>
+    <div class="steps-eyebrow">Kenapa E-Kos</div>
+    <h2 class="steps-heading">Sewa Kamar Dengan 3 Langkah</h2>
+    <p class="steps-sub">Hanya dengan 3 langkah mudah, Anda sudah bisa mendapatkan kamar yang sesuai kebutuhan dan budget.  </p>
+
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12l-4-2-3 2-3-2-4 2V6a2 2 0 012-2z"/></svg>
+        </div>
+        <h3>Pilih Kamar dan Layanan</h3>
+        <p>Masukkan informasi yang diperlukan, pilih metode pembayaran yang tersedia, lalu konfirmasikan pesanan Anda dengan mudah.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
+        </div>
+        <h3>Isi Data & Bayar</h3>
+        <p>Masukkan informasi yang diperlukan, pilih metode pembayaran yang tersedia, lalu konfirmasikan pesanan Anda dengan mudah.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4"/></svg>
+        </div>
+        <h3>Akun & Akses Langsung Aktif</h3>
+        <p>Verifikasi pembayaran selesai, akun Anda akan otomatis aktif sehingga Anda dapat langsung mengakses layanan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fitur-section" id="fitur">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Semua kebutuhan kos, dalam satu aplikasi.</h2>
+      <p>Dari booking sampai akses pintu, semua bisa diatur langsung dari HP kamu.</p>
+    </div>
+
+    <div class="fitur-grid reveal">
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0117 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01"/></svg>
+        </div>
+        <h3>Booking Kamar Real-time</h3>
+        <p>Lihat ketersediaan kamar, tipe, dan harga secara langsung tanpa perlu survei ke lokasi.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <h3>Pembayaran Fleksibel</h3>
+        <p>Nikmati proses pembayaran yang cepat, mudah, dan aman melalui Transfer Bank, E-Wallet, QRIS, atau Virtual Account.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z"/></svg>
+        </div>
+        <h3>Pencatatan Akses dengan QR</h3>
+        <p>Setiap penghuni mendapatkan QR pribadi untuk melakukan pencatatan keluar dan masuk secara praktis, lengkap dengan riwayat aktivitas.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+        </div>
+        <h3>Laporan Kerusakan Online</h3>
+        <p>Ada kendala di kamar? Laporkan langsung dari aplikasi, tim kami tindak lanjuti lebih cepat.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z"/></svg>
+        </div>
+        <h3>Dashboard Penyewa</h3>
+        <p>Pantau status sewa, riwayat pembayaran, dan sisa masa kontrak dalam satu halaman.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <h3>Notifikasi Otomatis</h3>
+        <p>Dapat pengingat jatuh tempo, konfirmasi pembayaran, dan status laporan secara real-time.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -529,8 +673,8 @@
 <section class="cta-banner" id="kontak">
   <div class="wrap">
     <div class="eyebrow" style="justify-content:center;"><span class="dash"></span>Mulai Hari Ini<span class="dash"></span></div>
-    <h2 class="display">Survei kos pilihan Anda, tanpa biaya, kapan saja minggu ini.</h2>
-    <a class="btn btn-primary">Jadwalkan Survei Gratis</a>
+    <h2 class="display">Temukan tempat yang nyaman untuk pulang. Sewa kamar Anda sekarang dengan proses yang mudah dan praktis.</h2>
+    <a class="btn btn-primary" href="#kos">Sewa Sekarang</a>
   </div>
 </section>
 
@@ -543,15 +687,15 @@
             <path d="M5 14L15 5L25 14V25H5V14Z" stroke="#F3EFE6" stroke-width="1.6" stroke-linejoin="round"/>
             <path d="M12 25V17H18V25" stroke="#B8895B" stroke-width="1.6"/>
           </svg>
-          Andara
+          E-Kos
         </div>
         <p class="tag">Kos terkurasi untuk yang ingin tinggal dengan tenang — di 14 kota besar Indonesia.</p>
       </div>
       <div class="foot-col">
         <h4>Jelajahi</h4>
         <a href="#kos">Kos Pilihan</a>
-        <a href="#kenapa">Kenapa Andara</a>
-        <a href="#testimoni">Cerita Penghuni</a>
+        <a href="#kenapa">Kenapa E-Kos</a>
+        <a href="#fitur">Fitur E-Kos</a>
       </div>
       <div class="foot-col">
         <h4>Untuk Pemilik</h4>
@@ -560,12 +704,12 @@
       </div>
       <div class="foot-col">
         <h4>Kontak</h4>
-        <a href="#">hello@andara.id</a>
+        <a href="#">hello@E-Kos.id</a>
         <a href="#">+62 812 3456 7890</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Andara Living. Seluruh hak cipta dilindungi.</span>
+      <span>© 2026 E-Kos Living. Seluruh hak cipta dilindungi.</span>
       <span>Jakarta, Indonesia</span>
       <span>{{ Auth::user()->name }}</span>
     </div>

@@ -14,6 +14,7 @@
     --paper:#F3EFE6;
     --paper-deep:#ECE5D6;
     --moss:#2F4A3E;
+    --moss-deep:#233830;
     --moss-light:#4C6F5E;
     --brass:#B8895B;
     --brass-light:#E8C9A0;
@@ -121,19 +122,100 @@
   .section-head h2{ font-size:clamp(28px,3.4vw,38px); font-weight:440; max-width:480px; line-height:1.18; }
   .section-head p{ color:var(--ink-soft); max-width:300px; font-size:14.5px; padding-bottom:4px; }
 
-  /* ---------- FEATURES ---------- */
-  .features{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .feature{ background:var(--paper); padding:38px 32px; }
-  .feature svg{ width:30px; height:30px; color:var(--moss); margin-bottom:22px; }
-  .feature h3{ font-family:'Fraunces', serif; font-size:19px; font-weight:560; margin-bottom:10px; }
-  .feature p{ font-size:14px; color:var(--ink-soft); line-height:1.65; }
+  /* ---------- KENAPA E-KOS (steps) ---------- */
+  .steps-section{
+    background:var(--moss-deep);
+    color:var(--white);
+    padding:90px 0;
+  }
+  .steps-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--brass-light); margin-bottom:18px; font-weight:500;
+  }
+  .steps-heading{
+    font-family:'Fraunces', serif; font-weight:640; font-size:clamp(28px,3.6vw,42px);
+    line-height:1.15; max-width:620px; margin-bottom:18px;
+  }
+  .steps-sub{
+    color:rgba(243,239,230,.65); font-size:15.5px; max-width:480px; line-height:1.65; margin-bottom:64px;
+  }
+  .steps-row{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .steps-row::before{
+    content:'';
+    position:absolute;
+    top:27px;
+    left:70px;
+    right:70px;
+    border-top:2px dashed rgba(184,137,91,.45);
+    z-index:0;
+  }
+  .step{
+    position:relative;
+    z-index:1;
+    flex:1;
+    text-align:center;
+    padding:0 18px;
+  }
+  .step-icon{
+    width:56px; height:56px; border-radius:50%;
+    background:var(--moss-deep);
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 26px;
+    color:var(--brass-light);
+  }
+  .step-icon svg{ width:24px; height:24px; }
+  .step h3{
+    font-family:'Fraunces', serif; font-weight:600; font-size:17px;
+    margin-bottom:10px; color:var(--white);
+  }
+  .step p{
+    font-size:13.5px; color:rgba(243,239,230,.6); line-height:1.7;
+    max-width:230px; margin:0 auto;
+  }
 
-  /* ---------- TESTIMONIAL ---------- */
-  .testi{ background:var(--moss); color:var(--white); }
-  .testi .wrap{ padding:90px 32px; display:grid; grid-template-columns:.6fr 1fr; gap:50px; align-items:center; }
-  .testi blockquote{ font-family:'Fraunces',serif; font-size:clamp(24px,2.8vw,32px); font-weight:300; font-style:italic; line-height:1.4; }
-  .testi cite{ display:block; margin-top:26px; font-style:normal; font-size:14px; color:var(--brass-light); }
-  .testi-mark{ font-family:'Fraunces',serif; font-size:120px; line-height:1; color:var(--moss-light); opacity:.6; }
+  /* ---------- FITUR E-KOS (terang, kontras dari steps-section gelap) ---------- */
+  .fitur-section{
+    background:var(--white);
+    padding:90px 0;
+  }
+  .fitur-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .fitur-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px 28px;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .fitur-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 22px 40px -24px rgba(30,42,34,.25);
+    border-color:var(--brass);
+  }
+  .fitur-icon{
+    width:48px; height:48px; border-radius:12px;
+    background:var(--brass-light);
+    color:var(--jati);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px;
+  }
+  .fitur-icon svg{ width:22px; height:22px; }
+  .fitur-card h3{
+    font-family:'Fraunces', serif; font-size:18px; font-weight:600;
+    margin-bottom:8px; color:var(--ink);
+  }
+  .fitur-card p{
+    font-size:13.5px; color:var(--ink-soft); line-height:1.65;
+  }
 
   /* ---------- CTA BANNER ---------- */
   .cta-banner{ padding:100px 0; text-align:center; }
@@ -160,9 +242,10 @@
     .hero-grid{ grid-template-columns:1fr; padding-bottom:40px; }
     .hero-art{ order:-1; }
     .trust-line .wrap{ gap:10px 18px; }
-    .features{ grid-template-columns:1fr; }
-    .testi .wrap{ grid-template-columns:1fr; padding:60px 24px; }
-    .testi-mark{ display:none; }
+    .steps-row{ flex-direction:column; gap:36px; }
+    .steps-row::before{ display:none; }
+    .step p{ max-width:100%; }
+    .fitur-grid{ grid-template-columns:1fr; }
     .foot-grid{ grid-template-columns:1fr 1fr; }
     .wrap{ padding:0 20px; }
   }
@@ -181,9 +264,9 @@
         E-Kos
       </div>
       <div class="nav-links">
-        <a href="#kos">Kos Pilihan</a>
+        <a href="/login">Kos Pilihan</a>
         <a href="#kenapa">Kenapa E-Kos</a>
-        <a href="#testimoni">Cerita Penghuni</a>
+        <a href="#fitur">Fitur E-Kos</a>
         <a href="#kontak">Kontak</a>
       </div>
 
@@ -215,9 +298,9 @@
     <div>
       <div class="eyebrow"><span class="dash"></span>Welcome</div>
       <h1 class="headline">Kos yang terasa <em>seperti pulang</em>, bukan sekadar kamar sewa.</h1>
-      <p class="lede">E-Kos memilihkan kos dengan tangan — pemilik yang ramah, kontrak yang jujur, dan kamar yang dirawat selayaknya rumah sendiri. Tinggal di 14 kota besar Indonesia.</p>
+      <p class="lede">Tempat untuk beristirahat dengan tenang, memulai hari dengan nyaman, dan menikmati setiap momen layaknya di rumah sendiri.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#kos">Lihat Kos Pilihan</a>
+        <a class="btn btn-primary" href="/login">Lihat Kos Pilihan</a>
         <a class="btn btn-ghost" href="#kenapa">Bagaimana Cara Kerjanya</a>
       </div>
     </div>
@@ -262,47 +345,106 @@
 
   <div class="trust-line">
     <div class="wrap">
-      <span><b>186+</b> Kos Terverifikasi</span>
+      <span><b>100%</b> Kos Terverifikasi</span>
       <span class="sep"></span>
-      <span><b>14</b> Kota di Indonesia</span>
+      <span><b>24/7</b>Keamanan & Akses</span>
       <span class="sep"></span>
       <span><b>4.8</b>/5 Rating Rata-rata</span>
     </div>
   </div>
 </section>
 
-<section class="section" id="kenapa">
+<section class="steps-section" id="kenapa">
   <div class="wrap">
-    <div class="section-head reveal">
-      <h2>Tiga hal yang membedakan E-Kos dari sekadar listing kos.</h2>
-      <p>Bukan hanya foto bagus — kami yang turun langsung memastikan setiap kamar layak ditinggali.</p>
-    </div>
-    <div class="features reveal">
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12l-4-2-3 2-3-2-4 2V6a2 2 0 012-2z"/></svg>
-        <h3>Kontrak Jujur</h3>
-        <p>Surat sewa berbahasa jelas, tanpa biaya tersembunyi. Apa yang disepakati di awal, itu yang dibayar.</p>
+    <div class="steps-eyebrow">Kenapa E-Kos</div>
+    <h2 class="steps-heading">Sewa Kamar Dengan 3 Langkah</h2>
+    <p class="steps-sub">Hanya dengan 3 langkah mudah, Anda sudah bisa mendapatkan kamar yang sesuai kebutuhan dan budget.</p>
+
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12l-4-2-3 2-3-2-4 2V6a2 2 0 012-2z"/></svg>
+        </div>
+        <h3>Pilih Kamar dan Layanan</h3>
+        <p>Cari Kamar Sesuai Budget, Temukan kamar yang nyaman dengan harga yang sesuai anggaran Anda. Mudah, cepat, dan tanpa ribet.</p>
       </div>
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
-        <h3>Pemilik Terverifikasi</h3>
-        <p>Setiap pemilik kos kami temui langsung. Identitas dan legalitas bangunan diperiksa sebelum tayang.</p>
+
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
+        </div>
+        <h3>Isi Data & Bayar</h3>
+        <p>Masukkan informasi yang diperlukan, pilih metode pembayaran yang tersedia, lalu konfirmasikan pesanan Anda dengan mudah.</p>
       </div>
-      <div class="feature">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4"/></svg>
-        <h3>Bantuan Pindahan</h3>
-        <p>Tim E-kos membantu jadwal survei, negosiasi harga, hingga koordinasi pindahan di hari-H.</p>
+
+      <div class="step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4"/></svg>
+        </div>
+        <h3>Akun & Akses Langsung Aktif</h3>
+        <p>Verifikasi pembayaran selesai, akun Anda akan otomatis aktif sehingga Anda dapat langsung mengakses layanan.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="testi" id="testimoni">
+<section class="fitur-section" id="fitur">
   <div class="wrap">
-    <div class="testi-mark">"</div>
-    <div>
-      <blockquote>Pindah ke Kos E-Kos itu satu-satunya keputusan tahun ini yang nggak pernah saya sesali. Pemiliknya sigap, dan suratnya benar-benar jelas — nggak ada drama di akhir bulan.</blockquote>
-      <cite>Ranti A. — Penghuni Kos E-Kos, Bandung, sejak 2024</cite>
+    <div class="section-head reveal">
+      <h2>Semua kebutuhan kos, dalam satu aplikasi.</h2>
+      <p>Dari booking sampai akses pintu, semua bisa diatur langsung dari HP kamu.</p>
+    </div>
+
+    <div class="fitur-grid reveal">
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0117 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01"/></svg>
+        </div>
+        <h3>Booking Kamar Real-time</h3>
+        <p>Lihat ketersediaan kamar, tipe, dan harga secara langsung tanpa perlu survei ke lokasi.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <h3>Pembayaran Fleksibel</h3>
+        <p>Nikmati proses pembayaran yang cepat, mudah, dan aman melalui Transfer Bank, E-Wallet, QRIS, atau Virtual Account.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z"/></svg>
+        </div>
+        <h3>Pencatatan Akses dengan QR</h3>
+        <p>Setiap penghuni mendapatkan QR pribadi untuk melakukan pencatatan keluar dan masuk secara praktis, lengkap dengan riwayat aktivitas.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+        </div>
+        <h3>Laporan Kerusakan Online</h3>
+        <p>Ada kendala di kamar? Laporkan langsung dari aplikasi, tim kami tindak lanjuti lebih cepat.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z"/></svg>
+        </div>
+        <h3>Dashboard Penyewa</h3>
+        <p>Pantau status sewa, riwayat pembayaran, dan sisa masa kontrak dalam satu halaman.</p>
+      </div>
+
+      <div class="fitur-card">
+        <div class="fitur-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <h3>Notifikasi Otomatis</h3>
+        <p>Dapat pengingat jatuh tempo, konfirmasi pembayaran, dan status laporan secara real-time.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -310,8 +452,8 @@
 <section class="cta-banner" id="kontak">
   <div class="wrap">
     <div class="eyebrow" style="justify-content:center;"><span class="dash"></span>Mulai Hari Ini<span class="dash"></span></div>
-    <h2 class="display">Survei kos pilihan Anda, tanpa biaya, kapan saja minggu ini.</h2>
-    <a class="btn btn-primary">Jadwalkan Survei Gratis</a>
+    <h2 class="display">Temukan tempat yang nyaman untuk pulang. Sewa kamar Anda sekarang dengan proses yang mudah dan praktis.</h2>
+    <a class="btn btn-primary" href="/login">Mulai Sewa</a>
   </div>
 </section>
 
@@ -330,9 +472,9 @@
       </div>
       <div class="foot-col">
         <h4>Jelajahi</h4>
-        <a href="#kos">Kos Pilihan</a>
+        <a href="/login">Kos Pilihan</a>
         <a href="#kenapa">Kenapa E-Kos</a>
-        <a href="#testimoni">Cerita Penghuni</a>
+        <a href="#fitur">Fitur E-Kos</a>
       </div>
       <div class="foot-col">
         <h4>Untuk Pemilik</h4>
