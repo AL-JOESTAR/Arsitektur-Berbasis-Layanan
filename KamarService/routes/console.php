@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 
 
 Schedule::command('pembayaran:expire-pending')->everyFiveMinutes();
+Schedule::command('app:cek-sewa-hampir-habis')->dailyAt('08:00');
