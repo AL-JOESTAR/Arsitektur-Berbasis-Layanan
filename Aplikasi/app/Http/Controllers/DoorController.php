@@ -6,52 +6,69 @@ use App\Models\DoorLog;
 use App\Models\Reader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
 
 class DoorController extends Controller
 {
-     public function index()
+    public function index()
 {
-    $readers = Reader::all();
+    $reader = Http::get(
+        "http://host.docker.internal:8001/api/readers"
+    );
 
-    $logs = DoorLog::where('user_id', Auth::id())
-                    ->latest()
-                    ->get();
+    $log = Http::get(
+        "http://host.docker.internal:8001/api/doorlogs/user/".Auth::id()
+    );
 
-    return view('dashboard.doorlog', compact('readers','logs'));
-}
+    $readers = [];
 
-    
-public function scan($readerId)
-{
-    $user = Auth::user();
+    $logs = [];
 
-    $reader = Reader::findOrFail($readerId);
+    if($reader->successful()){
 
-    if ($user->status_user != 'active') {
+        $readers = $reader->json()['data'];
 
-        DoorLog::create([
-            'reader_id' => $reader->id,
-            'user_id' => $user->id,
-            'scan_time' => now(),
-            'access_result' => 'deny',
-            'reason' => 'user_inactive',
-        ]);
-
-        return response()->json([
-            'message' => 'Access Denied'
-        ], 403);
     }
 
-    DoorLog::create([
-        'reader_id' => $reader->id,
-        'user_id' => $user->id,
-        'scan_time' => now(),
-        'access_result' => 'allow',
-        'reason' => 'success',
-    ]);
+    if($log->successful()){
 
-    return response()->json([
-        'message' => 'Access Allowed'
-    ]);
+        $logs = $log->json()['data'];
+
+    }
+
+    return view(
+        'dashboard.doorlog',
+        compact(
+            'readers',
+            'logs'
+        )
+    );
+}
+
+public function access(Request $request)
+{
+    $response = Http::post(
+
+        "http://host.docker.internal:8001/api/door/validate",
+
+        [
+
+            'reader_id'=>$request->reader_id,
+            'qr_code' => $request->qr_code,
+            'user_id'=>Auth::id()
+            
+
+        ]
+
+    );
+
+    return response()->json(
+
+        $response->json(),
+
+        $response->status()
+
+    );
 }
 }

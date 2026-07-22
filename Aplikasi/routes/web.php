@@ -101,13 +101,13 @@ Route::middleware(['auth', 'penyewa'])->group(function () {
 
 });
 
-Route::middleware('auth')->group(function(){
+// Route::middleware('auth')->group(function(){
 
-    Route::get('/door-access',[DoorController::class,'index']);
+//     Route::get('/door-access',[DoorController::class,'index']);
 
-    Route::get('/door-access/{reader}',
-        [DoorController::class,'scan'])->name('door.scan');
-});
+//     Route::get('/door-access/{reader}',
+//         [DoorController::class,'scan'])->name('door.scan');
+// });
 
 // Perpanjangan
 Route::get('/perpanjang/{id}',
@@ -126,3 +126,9 @@ Route::get(
     '/pembayaran',
     [KamarController::class,'riwayatPembayaran']
 )->middleware('auth');
+
+ Route::get('/door-access', [DoorController::class, 'index'])
+        ->name('door.index');
+
+Route::post('/door/access',[DoorController::class,'access'])
+    ->name('door.access');

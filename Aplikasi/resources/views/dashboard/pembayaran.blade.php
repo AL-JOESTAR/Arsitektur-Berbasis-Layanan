@@ -13,7 +13,6 @@
             <thead>
 
                 <tr>
-                    <th>No</th>
                     <th>Kamar</th>
                     <th>Jenis</th>
                     <th>Periode</th>
@@ -29,8 +28,6 @@
                 @forelse($pembayarans as $i => $item)
 
                 <tr>
-
-                    <td>{{ $i+1 }}</td>
 
                     <td>
                         {{ $item['penyewaan']['kamar']['Nomor_Kamar'] }}
@@ -72,10 +69,18 @@
 
                     </td>
 
-                    <td>
-                        {{ $item['tanggal_bayar'] ?? '-' }}
-                    </td>
-
+                  <td>
+    @if($item['tanggal_bayar'])
+        <div class="fw-semibold">
+            {{ \Carbon\Carbon::parse($item['tanggal_bayar'])->locale('id')->translatedFormat('d M Y') }}
+        </div>
+        <small class="text-muted">
+            {{ \Carbon\Carbon::parse($item['tanggal_bayar'])->format('H:i') }} WIB
+        </small>
+    @else
+        <span class="text-muted">Belum dibayar</span>
+    @endif
+</td>
                 </tr>
 
                 @empty

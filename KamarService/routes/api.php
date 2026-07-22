@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\DoorController;
 use App\Http\Controllers\Api\KamarController;
 use App\Http\Controllers\Api\LaporanController;
 use App\Http\Controllers\Api\PembayaranController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PenyewaanController;
 use App\Http\Controllers\Api\MidtransController;
+use App\Http\Controllers\Api\ReaderController;
 use App\Http\Controllers\PerpanjangController;
 
 Route::prefix('penyewaans')->group(function () {
@@ -49,3 +51,9 @@ Route::post('/kamar', [KamarController::class, 'store']);
 Route::get('/kamar/{id}', [KamarController::class, 'show']);
 Route::put('/kamar/{id}', [KamarController::class, 'update']);
 Route::delete('/kamar/{id}', [KamarController::class, 'destroy']);
+
+// door access
+Route::post('/door/validate', [DoorController::class,'validate']);
+Route::get('/doorlogs/user/{id}',
+    [DoorController::class,'user']);
+Route::get('/readers',[ReaderController::class,'index']);
