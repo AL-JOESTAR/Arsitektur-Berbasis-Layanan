@@ -89,6 +89,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/door-access', [AdminDoor::class,'index']);
 
+    Route::get('/admin/pembayaran', function() {
+        return view('dashboard_admin.pembayaran');
+    });
+
 
 });
 
