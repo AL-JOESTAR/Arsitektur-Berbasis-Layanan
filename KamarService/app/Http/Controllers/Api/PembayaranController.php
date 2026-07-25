@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
+use App\Models\Penyewaan;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 use Midtrans\Config;
+use Carbon\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -72,5 +74,68 @@ class PembayaranController extends Controller
         'success' => true,
         'data' => $data
     ]);
+}
+
+public function admin()
+{
+    $today = Carbon::today();
+
+    $data = Penyewaan::with('kamar')->get();
+
+    foreach($data as $item){
+
+        $end = Carbon::parse($item->end);
+
+        if($today->lte($end)){
+
+            $item->status="Lunas";
+            $item->warna="success";
+
+        }
+
+        elseif(
+
+            $today->gt($end) &&
+            $today->lte($end->copy()->addDays(7))
+
+        ){
+
+            $item->status="Menunggak";
+            $item->warna="warning";
+
+        }
+
+        else{
+
+            $item->status="Tidak Aktif";
+            $item->warna="danger";
+
+        }
+
+    }
+
+    return response()->json([
+
+        'success'=>true,
+
+        'data'=>$data
+
+    ]);
+
+}
+
+public function riwayat()
+{
+
+        $data = Pembayaran::with('penyewaan.kamar')
+        ->latest()
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $data
+    ]);
+
+
 }
 }

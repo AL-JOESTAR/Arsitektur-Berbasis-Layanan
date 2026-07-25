@@ -406,6 +406,10 @@
                         <i class="bi bi-qr-code"></i>
                         door log
                     </a>
+                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/pembayaran">
+                        <i class="bi bi-wallet2"></i>
+                        Pembayaran
+                    </a>
                 </div>
                 <div class="sidebar-footer">
                     <small>&copy; {{ date('Y') }} &middot; Admin Kamar</small>

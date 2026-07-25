@@ -71,4 +71,33 @@ class DoorController extends Controller
             'message' => 'Scan berhasil'
         ]);
     }
+
+
+    public function admin()
+{
+        $logs = DoorLog::with('reader')
+        ->latest()
+        ->get()
+        ->map(function ($log) {
+
+            return [
+                'id' => $log->id,
+                'user_id' => $log->user_id,
+                'reader' => [
+                    'reader_name' => $log->reader->reader_type
+                ],
+                'scan_time' => Carbon::parse($log->scan_time)
+                    ->timezone('Asia/Jakarta')
+                    ->format('d M Y • H:i') . ' WIB',
+                'access_result' => $log->access_result,
+                'reason' => $log->reason,
+            ];
+        });
+
+    return response()->json([
+        'success' => true,
+        'data' => $logs
+    ]);
+
+}
 }

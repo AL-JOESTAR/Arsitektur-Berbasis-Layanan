@@ -2,144 +2,86 @@
 
 @section('konten')
 
-<div class="container-fluid">
+<div class="container">
 
-    <div class="row">
+    <div class="card shadow">
 
-        {{-- QR Reader --}}
-        <div class="col-md-12 mb-4">
+        <div class="card-header bg-primary text-white">
 
-            <div class="card shadow">
-
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">QR Door Access</h4>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-
-                        @foreach($readers as $reader)
-
-                        <div class="col-md-6 text-center mb-4">
-
-                            <div class="card">
-
-                                <div class="card-body">
-
-                                    <h4>{{ ucfirst($reader->reader_name) }}</h4>
-
-                                    <span class="badge bg-info">
-                                        {{ $reader->reader_type }}
-                                    </span>
-
-                                    <br><br>
-
-                                    <img
-                                        class="img-fluid border rounded"
-                                        width="250"
-                                        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode(route('door.scan',$reader->id)) }}"
-                                        alt="QR">
-
-                                    <br><br>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        @endforeach
-
-                    </div>
-
-                </div>
-
-            </div>
+            <h4 class="mb-0">
+                Riwayat Door Access
+            </h4>
 
         </div>
 
-        {{-- Riwayat --}}
-        <div class="col-md-12">
+        <div class="card-body">
 
-            <div class="card shadow">
+            <table class="table table-bordered table-striped">
 
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0">Riwayat Door Access</h4>
-                </div>
+                <thead>
 
-                <div class="card-body">
+                    <tr>
 
-                    <table class="table table-bordered table-striped">
+                        <th>Nama</th>
+                        <th>Reader</th>
+                        <th>Waktu Scan</th>
+                        <th>Status</th>
+                        <th>Reason</th>
 
-                        <thead class="table-dark">
+                    </tr>
 
-                            <tr>
+                </thead>
 
-                                <th>User</th>
-                                <th>Reader</th>
-                                <th>Scan Time</th>
-                                <th>Status</th>
+                <tbody>
 
-                            </tr>
+                    @forelse($logs as $log)
 
-                        </thead>
+                    <tr>
+                        <td>{{ $log['nama_user'] }}</td>
 
-                        <tbody>
+                        <td>{{ $log['reader']['reader_name'] }}</td>
 
-                        @forelse($logs as $log)
+                        <td>{{ $log['scan_time'] }}</td>
 
-                        <tr>
-                            <td>{{ $log->user->name }}</td>
+                        <td>
 
-                            <td>{{ $log->reader->reader_name }}</td>
+                            @if($log['access_result']=="allow")
 
+                                <span class="badge bg-success">
+                                    Allow
+                                </span>
 
-                            <td>{{ $log->scan_time }}</td>
+                            @else
 
-                            <td>
+                                <span class="badge bg-danger">
+                                    Deny
+                                </span>
 
-                                @if($log->access_result == 'allow')
+                            @endif
 
-                                    <span class="badge bg-success">
-                                        Allow
-                                    </span>
+                        </td>
 
-                                @else
+                        <td>{{ ucfirst($log['reason']) }}</td>
 
-                                    <span class="badge bg-danger">
-                                        Deny
-                                    </span>
+                    </tr>
 
-                                @endif
+                    @empty
 
-                            </td>   
+                    <tr>
 
-                        </tr>
+                        <td colspan="6" class="text-center">
 
-                        @empty
+                            Belum ada riwayat.
 
-                        <tr>
+                        </td>
 
-                            <td colspan="7" class="text-center">
-                                Belum ada riwayat.
-                            </td>
+                    </tr>
 
-                        </tr>
+                    @endforelse
 
-                        @endforelse
+                </tbody>
 
-                        </tbody>
-
-                    </table>
-
-                    <div class="mt-3">
-                        {{ $logs->links() }}
-                    </div>
-
-                </div>
-
-            </div>
+            </table>
 
         </div>
 

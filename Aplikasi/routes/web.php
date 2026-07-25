@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminDoor;
 use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminLaporanController;
+use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\DoorController;
 use App\Http\Controllers\KamarController;
@@ -87,11 +88,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::delete('/admin/kamar/{id}', [AdminKamarController::class,'destroy']);
 
-    Route::get('/admin/door-access', [AdminDoor::class,'index']);
+    Route::get('/admin/door-access', [AdminDoor::class,'index'])->name('admin.door');
 
-    Route::get('/admin/pembayaran', function() {
-        return view('dashboard_admin.pembayaran');
-    });
+    Route::get('/admin/pembayaran',
+    [AdminPembayaranController::class,'index']);
 
 
 });

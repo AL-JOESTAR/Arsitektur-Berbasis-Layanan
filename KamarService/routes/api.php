@@ -57,3 +57,11 @@ Route::post('/door/validate', [DoorController::class,'validate']);
 Route::get('/doorlogs/user/{id}',
     [DoorController::class,'user']);
 Route::get('/readers',[ReaderController::class,'index']);
+
+Route::get(
+    '/admin/doorlogs',
+    [DoorController::class,'admin']
+);
+
+Route::get('/admin/pembayaran', [PembayaranController::class,'admin']);
+Route::get('/admin/riwayat-pembayaran',[PembayaranController::class,'riwayat']);
