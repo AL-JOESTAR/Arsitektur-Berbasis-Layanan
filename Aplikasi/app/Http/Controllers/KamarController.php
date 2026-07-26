@@ -18,7 +18,6 @@ class KamarController extends Controller
     return redirect()->route('dashboard');
     }
 
-    // return view('dashboard.kamar', compact('kamars'));
     return view('home', compact('kamars'));
 }
 
