@@ -87,3 +87,14 @@ Route::post('/type-room', [TypeRoomController::class,'store']);
 Route::put('/type-room/{id}', [TypeRoomController::class,'update']);
 
 Route::delete('/type-room/{id}', [TypeRoomController::class,'destroy']);
+
+
+Route::get(
+'/type-room/{id}/facilities',
+[TypeRoomController::class,'facilities']
+);
+
+Route::post(
+'/type-room/{id}/facilities',
+[TypeRoomController::class,'saveFacilities']
+);

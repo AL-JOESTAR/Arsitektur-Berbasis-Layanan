@@ -12,7 +12,9 @@ class Facility extends Model
 {
     return $this->belongsToMany(
         TypeRoom::class,
-        'room_type_facility'
+        'room_type__facilities',
+         'facility_id',
+        'type_room_id'
     );
 }
 }

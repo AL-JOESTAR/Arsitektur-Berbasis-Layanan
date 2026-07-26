@@ -14,7 +14,6 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
         <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <style>
@@ -180,9 +179,13 @@
             }
 
             .list-group-item.active-nav{
-                background:var(--sidebar-elev) !important;
-                color:var(--sidebar-text-active) !important;
-                box-shadow:inset 3px 0 0 var(--brass);
+                background:var(--brass) !important;
+                color:#1D1707 !important;
+                font-weight:600;
+            }
+
+            .list-group-item.active-nav svg{
+                opacity:1;
             }
 
             .sidebar-footer{
@@ -372,95 +375,193 @@
             }
         </style>
     </head>
-    <body>
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">
-                    <div class="brand-mark">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14.5 8.5a3.5 3.5 0 1 0-3.916 3.478L4 18.56V21h3l3.5-3.5.94.94 2.06-2.06-.94-.94L14.5 12.5A3.5 3.5 0 0 0 14.5 8.5Z" stroke="#1D1707" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="15.5" cy="7.5" r="1.1" fill="#1D1707"/>
-                        </svg>
-                    </div>
-                    <div class="brand-text">
-                        <span class="eyebrow">Wellcome</span>
-                        <span class="name">{{ Auth::user()->name }}</span>
-                    </div>
-                </div>
-                <div class="sidebar-nav list-group list-group-flush">
-                    <span class="nav-label">Menu</span>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('admin/dashboard') ? 'active-nav' : '' }}" href="/admin/dashboard">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                        Dashboard
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('admin/laporan') ? 'active-nav' : '' }}" href="/admin/laporan">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 20V10M12 20V4M19 20v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                        laporan
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light {{ request()->is('admin/kamar') ? 'active-nav' : '' }}" href="/admin/kamar">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 21V4.6c0-.55.42-1 .95-1.08l9-1.4A1 1 0 0 1 17 3.1V21M6 21h11M6 21H4M17 21h2M13 12h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Kamar
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/door-access">
-                        <i class="bi bi-qr-code"></i>
-                        door log
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/pembayaran">
-                        <i class="bi bi-wallet2"></i>
-                        Pembayaran
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/facility">
-                        <i class="bi bi-tv"></i>
-                        Fasilitas
-                    </a>
-                    <a class="list-group-item list-group-item-action list-group-item-light" href="/admin/type-room">
-                        <i class="bi bi-tags-fill"></i>
-                        Tipe kamar
-                    </a>
-                </div>
-                <div class="sidebar-footer">
-                    <small>&copy; {{ date('Y') }} &middot; Admin Kamar</small>
-                </div>
+@php
+    $parent = Auth::guard('parent')->user();
+@endphp
+
+<body>
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+
+        <div class="sidebar-heading border-bottom bg-light">
+
+            <div class="brand-mark">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.5 8.5a3.5 3.5 0 1 0-3.916 3.478L4 18.56V21h3l3.5-3.5.94.94 2.06-2.06-.94-.94L14.5 12.5A3.5 3.5 0 0 0 14.5 8.5Z"
+                        stroke="#1D1707" stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                    <circle cx="15.5" cy="7.5" r="1.1" fill="#1D1707"/>
+                </svg>
             </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                        </button>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0 align-items-lg-center">
-                                <li class="nav-item active"><a class="nav-link" href="/admin/dashboard">Home</a></li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="avatar-chip">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">
-                                                    Logout
-                                                </button>
-                                            </form>
+            <div class="brand-text">
+                <span class="eyebrow">Welcome Parent</span>
+                <span class="name">{{ $parent->nama }}</span>
+            </div>
 
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Page content-->
-                <div class="container-fluid">
-                    @yield('konten')
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    </body>
+
+        <div class="sidebar-nav list-group list-group-flush">
+
+            <span class="nav-label">
+                Menu
+            </span>
+
+            <a
+                class="list-group-item list-group-item-action list-group-item-light {{ request()->routeIs('parent.dashboard') ? 'active-nav' : '' }}"
+                href="{{ route('parent.dashboard') }}">
+
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linejoin="round"/>
+                </svg>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+        <div class="sidebar-footer">
+
+            <small>
+
+                &copy; {{ date('Y') }} · E-Kos Parent Portal
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Page -->
+
+    <div id="page-content-wrapper">
+
+        <!-- Navbar -->
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="container-fluid">
+
+                <button class="btn btn-primary" id="sidebarToggle">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 6h16M4 12h16M4 18h16"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"/>
+                    </svg>
+
+                </button>
+
+                <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0 align-items-lg-center">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                                href="{{ route('parent.dashboard') }}">
+
+                                Dashboard
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle"
+                                id="navbarDropdown"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown">
+
+                                <span class="avatar-chip">
+
+                                    {{ strtoupper(substr($parent->nama,0,1)) }}
+
+                                </span>
+
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+
+                                <div class="dropdown-item-text">
+
+                                    <strong>{{ $parent->nama }}</strong>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ $parent->email }}
+
+                                    </small>
+
+                                </div>
+
+                                <div class="dropdown-divider"></div>
+
+                                <form method="POST"
+                                    action="{{ route('parent.logout') }}">
+
+                                    @csrf
+
+                                    <button
+                                        type="submit"
+                                        class="dropdown-item">
+
+                                        Logout
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <!-- Content -->
+
+        <div class="container-fluid">
+
+            @yield('konten')
+
+        </div>
+
+    </div>
+
+</div>
+
+@yield('script')
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+</body>
 </html>

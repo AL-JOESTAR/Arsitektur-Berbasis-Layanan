@@ -17,6 +17,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrController;
 use App\Http\Middleware\QrMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ParentAuthController;
+use App\Http\Controllers\ParentDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -169,16 +171,61 @@ Route::middleware(['auth','admin'])->group(function(){
     Route::post(
         '/admin/type-room',
         [AdminTypeRoomController::class,'store']
-    );
+    )->name('typeroom.store');
 
     Route::put(
         '/admin/type-room/{id}',
         [AdminTypeRoomController::class,'update']
-    );
+    )->name('typeroom.update');
 
     Route::delete(
         '/admin/type-room/{id}',
         [AdminTypeRoomController::class,'destroy']
-    );
+    )->name('typeroom.destroy');
+
+});
+
+Route::get(
+
+'/admin/type-room/{id}/facilities',
+
+[AdminTypeRoomController::class,'facilities']
+
+)->name('typeroom.facility');
+
+Route::post(
+
+'/admin/type-room/{id}/facilities',
+
+[AdminTypeRoomController::class,'saveFacilities']
+
+)->name('typeroom.facility.save');
+
+// parent login
+
+Route::get(
+    '/parent/login',
+    [ParentAuthController::class,'create']
+)->name('parent.login');
+
+Route::post(
+    '/parent/login',
+    [ParentAuthController::class,'store']
+)->name('parent.login.store');
+
+Route::post(
+    '/parent/logout',
+    [ParentAuthController::class,'destroy']
+)->name('parent.logout');
+
+Route::middleware('parent')->group(function(){
+
+    Route::get(
+
+        '/parent/dashboard',
+
+        [ParentDashboardController::class,'index']
+
+    )->name('parent.dashboard');
 
 });

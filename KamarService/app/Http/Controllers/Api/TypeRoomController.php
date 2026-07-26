@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Facility;
 use App\Models\TypeRoom;
 use Illuminate\Http\Request;
 
@@ -85,4 +86,51 @@ class TypeRoomController extends Controller
 
         ]);
     }
+
+    public function facilities($id)
+{
+    $typeRoom = TypeRoom::with('facilities')
+                    ->findOrFail($id);
+
+    $facilities = Facility::all();
+
+    return response()->json([
+
+        'success'=>true,
+
+        'type_room'=>$typeRoom,
+
+        'facilities'=>$facilities
+
+    ]);
+}
+
+public function saveFacilities(Request $request,$id)
+{
+
+    $request->validate([
+
+        'facilities'=>'array'
+
+    ]);
+
+    $typeRoom = TypeRoom::findOrFail($id);
+
+    $typeRoom
+        ->facilities()
+        ->sync(
+
+            $request->facilities
+
+        );
+
+    return response()->json([
+
+        'success'=>true,
+
+        'message'=>'Fasilitas berhasil diperbarui'
+
+    ]);
+
+}
 }

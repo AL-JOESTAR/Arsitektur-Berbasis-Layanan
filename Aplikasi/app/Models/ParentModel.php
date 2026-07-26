@@ -3,16 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ParentModel extends Model
+class ParentModel extends Authenticatable
 {
     protected $table = 'parents';
 
-     protected $fillable = [
+    protected $fillable = [
         'nama',
         'email',
+        'password',
         'no_hp',
-        'password'
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     public function users()

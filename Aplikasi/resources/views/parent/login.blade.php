@@ -18,10 +18,10 @@
             {{-- TITLE --}}
             <div class="text-center mb-6">
                 <h1 class="font-serif text-2xl font-semibold text-emerald-950 dark:text-white">
-                    Selamat Datang Kembali
+                    Selamat Datang Kembali Parent
                 </h1>
                 <p class="text-sm text-emerald-800/70 dark:text-amber-100/70 mt-1">
-                    Masuk ke akun kamu untuk melanjutkan
+                    Masuk ke akun Parent
                 </p>
             </div>
 
@@ -30,7 +30,7 @@
 
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-4">
+                <form method="POST" action="{{ route('parent.login.store') }}" class="space-y-4">
                     @csrf
 
                     {{-- EMAIL --}}
@@ -87,25 +87,9 @@
                         Login
                     </button>
 
-                    <p class="mt-3 text-center text-sm text-emerald-900/60 dark:text-amber-100/60">
-                    Belum punya akun?
-                    <a href="{{ route('register') }}"
-                        class="text-emerald-900 dark:text-amber-200 font-medium hover:underline">
-                        Register
-                    </a>
-                </p>
-
                 </form>
 
             </div>
-
-            {{-- FOOTER --}}
-
-                <a href="{{ route('parent.login') }}"
-                    class="w-full inline-flex justify-center items-center bg-blue-600 px-4 py-2.5 mt-3 text-white font-medium hover:bg-blue-700 transition">
-                    Login Parent
-                </a>
-            </p>
 
         </div>
 

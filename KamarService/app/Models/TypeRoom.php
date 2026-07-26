@@ -20,7 +20,9 @@ public function facilities()
 {
     return $this->belongsToMany(
         Facility::class,
-        'room_type_facility'
+        'room_type__facilities',
+        'type_room_id',
+        'facility_id'
     );
 }
 }

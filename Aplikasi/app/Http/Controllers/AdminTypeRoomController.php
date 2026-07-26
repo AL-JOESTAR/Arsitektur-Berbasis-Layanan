@@ -14,17 +14,17 @@ class AdminTypeRoomController extends Controller
             "http://host.docker.internal:8001/api/type-room"
         );
 
-        $typeRoom = [];
+        $typeRooms = [];
 
         if ($response->successful()) {
 
-            $typeRoom = $response->json()['data'];
+            $typeRooms = $response->json()['data'];
 
         }
 
         return view(
             'dashboard_admin.typeroom',
-            compact('typeRoom')
+            compact('typeRooms')
         );
     }
 
@@ -77,4 +77,60 @@ class AdminTypeRoomController extends Controller
             'Type Room berhasil dihapus'
         );
     }
+
+    public function facilities($id)
+{
+
+    $response = Http::get(
+
+        "http://host.docker.internal:8001/api/type-room/$id/facilities"
+
+    );
+
+    $data = $response->json();
+
+    return view(
+
+        'dashboard_admin.type_room_facility',
+
+        [
+
+            'typeRoom'=>$data['type_room'],
+
+            'facilities'=>$data['facilities']
+
+        ]
+
+    );
+
+}
+
+public function saveFacilities(Request $request,$id)
+{
+
+    Http::post(
+
+        "http://host.docker.internal:8001/api/type-room/$id/facilities",
+
+        [
+
+            'facilities'=>$request->facilities
+
+        ]
+
+    );
+
+    return redirect()
+
+        ->back()
+
+        ->with(
+
+            'success',
+
+            'Fasilitas berhasil diperbarui'
+
+        );
+
+}
 }
