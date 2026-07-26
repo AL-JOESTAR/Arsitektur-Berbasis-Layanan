@@ -73,14 +73,29 @@
 
     <div class="card shadow-sm border-0">
         <div class="card-body">
-            <h5 class="mb-0">Informasi</h5>
-            <hr>
+            
+        <div class="alert">
 
-            <p class="text-muted mb-0">
-                Dashboard ini digunakan untuk mengelola data kamar,
-                penyewa, laporan, serta proses administrasi pada sistem
-                penyewaan kos berbasis Service Oriented Architecture (SOA).
-            </p>
+    <h5 class="mb-3">
+        <i class="bi bi-info-circle-fill"></i>
+        Informasi
+    </h5>
+
+    <p class="mb-3">
+        Selamat datang di Dashboard Admin Kos. Gunakan halaman ini untuk
+        mengelola seluruh operasional kos secara terpusat.
+    </p>
+
+    <ul class="mb-0">
+        <li>Mengelola data kamar</li>
+        <li>Mengelola tipe kamar dan fasilitas</li>
+        <li>Mengelola data penyewa</li>
+        <li>Memantau pembayaran penghuni</li>
+        <li>Menangani laporan pengaduan</li>
+        <li>Melihat riwayat akses keluar masuk penghuni</li>
+    </ul>
+
+</div>
 
         </div>
     </div>

@@ -11,7 +11,8 @@ class ParentModel extends Model
      protected $fillable = [
         'nama',
         'email',
-        'no_hp'
+        'no_hp',
+        'password'
     ];
 
     public function users()

@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminDoor;
+use App\Http\Controllers\AdminFacilityController;
 use App\Http\Controllers\AdminKamarController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\AdminPembayaranController;
+use App\Http\Controllers\AdminTypeRoomController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\DoorController;
 use App\Http\Controllers\KamarController;
@@ -136,3 +138,47 @@ Route::get(
 
 Route::post('/door/access',[DoorController::class,'access'])
     ->name('door.access');
+
+    Route::middleware(['auth','admin'])->group(function(){
+
+Route::get('/admin/facility',
+
+    [AdminFacilityController::class,'index']);
+
+    Route::post('/admin/facility',
+
+    [AdminFacilityController::class,'store']);
+
+    Route::put('/admin/facility/{id}',
+
+    [AdminFacilityController::class,'update']);
+
+    Route::delete('/admin/facility/{id}',
+
+    [AdminFacilityController::class,'destroy']);
+
+});
+
+Route::middleware(['auth','admin'])->group(function(){
+
+    Route::get(
+        '/admin/type-room',
+        [AdminTypeRoomController::class,'index']
+    );
+
+    Route::post(
+        '/admin/type-room',
+        [AdminTypeRoomController::class,'store']
+    );
+
+    Route::put(
+        '/admin/type-room/{id}',
+        [AdminTypeRoomController::class,'update']
+    );
+
+    Route::delete(
+        '/admin/type-room/{id}',
+        [AdminTypeRoomController::class,'destroy']
+    );
+
+});

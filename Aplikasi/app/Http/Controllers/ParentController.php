@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ParentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class ParentController extends Controller
 {
@@ -34,6 +34,7 @@ class ParentController extends Controller
             'nama' => $request->nama,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
+            'password'=>Hash::make($request->password),
         ]);
 
         Auth::user()->update([
@@ -60,13 +61,15 @@ class ParentController extends Controller
         $request->validate([
             'nama'  => 'required',
             'email' => 'required|email|unique:parents,email,' . $id,
-            'no_hp' => 'required'
+            'no_hp' => 'required',
+            'password' => 'nullable|min:6'
         ]);
 
         $parent->update([
             'nama'  => $request->nama,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
+            'password'=>Hash::make($request->password),
         ]);
 
         return redirect()->route('parents.index')
