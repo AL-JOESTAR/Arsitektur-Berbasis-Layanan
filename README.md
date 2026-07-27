@@ -1,5 +1,17 @@
 # E-Kos
+
+<p align="center">
 <img src="img/Ekos.png">
+</p>
+
+<h2>Tentang E-Kos</h2>
+<P>
+E-Kos adalah sistem informasi penyewaan kos berbasis web yang dirancang untuk mempermudah pengelolaan kos bagi pemilik sekaligus memberikan pengalaman yang lebih praktis bagi penyewa dan orang tua.
+
+Aplikasi ini tidak hanya menyediakan fitur penyewaan kamar secara online, tetapi juga mendukung pembayaran digital melalui Midtrans, akses masuk menggunakan QR Code, pelaporan kerusakan secara real-time, serta monitoring aktivitas keluar masuk penyewa oleh orang tua.
+
+Dengan konsep digitalisasi proses administrasi kos, E-Kos membantu mengurangi pencatatan manual, meningkatkan transparansi pembayaran, dan mempercepat komunikasi antara pemilik dan penyewa.
+</P>
 
 ## Desain Database
 
@@ -35,7 +47,9 @@
 - Rest API
 - QR Code
 
-## Project Arsitektur berbasis layanan
+## Arsitektur Sistem
+
+Project menggunakan pendekatan Service-Oriented Architecture (SOA) sehingga beberapa layanan dipisahkan menjadi service tersendiri.
 
 * Aplikasi utama -> 80/tcp (localhost)
 * Kamar Service -> 8001
