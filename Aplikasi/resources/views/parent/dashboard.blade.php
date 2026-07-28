@@ -1,123 +1,126 @@
-@extends('layouts_dashboard.parent')
+    @extends('layouts_dashboard.parent')
 
-@section('konten')
+    @section('konten')
 
-<div class="container">
+    <div class="container">
 
-<div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h3>
+    <h3>
 
-Selamat Datang
+    Selamat Datang
 
-{{ $parent->nama }}
+    {{ $parent->nama }}
 
-</h3>
+    </h3>
 
-@if($user)
+    @if($user)
 
-<h5>
+    <h5>
 
-Anak :
+    Anak :
 
-{{ $user->name }}
+    {{ $user->name }}
 
-</h5>
+    </h5>
 
-@endif
+    @endif
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<div class="card shadow-sm">
+    <div class="card shadow-sm">
 
-<div class="card-header">
+    <div class="card-header">
 
-Riwayat Keluar Masuk
+    Riwayat Keluar Masuk
 
-</div>
+    </div>
 
-<div class="card-body">
+    <div class="card-body">
 
-<table class="table">
+    <table class="table">
 
-<thead>
+    <thead>
 
-<tr>
+    <tr>
 
-<th>No</th>
+    <th>No</th>
 
-<th>Reader</th>
+    <th>Reader</th>
 
-<th>Waktu</th>
+    <th>Waktu</th>
 
-<th>Status</th>
+    <th>Status</th>
 
-</tr>
+    </tr>
 
-</thead>
+    </thead>
 
-<tbody>
+    <tbody>
 
-@foreach($logs as $log)
+    @foreach($logs as $log)
 
-<tr>
+    <tr>
 
-<td>{{ $loop->iteration }}</td>
+    <td>{{ $loop->iteration }}</td>
 
-<td>{{ $log['reader']['reader_name'] }}</td>
+    <td>{{ $log['reader']['reader_type'] }}</td>
 
-<td>{{ $log['scan_time'] }}</td>
+    <td>
+         {{ $log['tanggal'] }}<br>
+    <small class="text-muted">{{ $log['jam'] }}</small>
+    </td>
 
-<td>
+    <td>
 
-@if($log['access_result']=="allow")
+    @if($log['access_result']=="allow")
 
-<span class="badge bg-success">
+    <span class="badge bg-success">
 
-Allow
+    Allow
 
-</span>
+    </span>
 
-@else
+    @else
 
-<span class="badge bg-danger">
+    <span class="badge bg-danger">
 
-Deny
+    Deny
 
-</span>
+    </span>
 
-@endif
+    @endif
 
-</td>
+    </td>
 
-</tr>
+    </tr>
 
-@endforeach
+    @endforeach
 
-</tbody>
+    </tbody>
 
-</table>
+    </table>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-<form method="POST" action="{{ route('parent.logout') }}">
+    <form method="POST" action="{{ route('parent.logout') }}">
 
-@csrf
+    @csrf
 
-<button class="btn btn-danger mt-3">
+    <button class="btn btn-danger mt-3">
 
-Logout
+    Logout
 
-</button>
+    </button>
 
-</form>
+    </form>
 
-</div>
+    </div>
 
-@endsection
+    @endsection

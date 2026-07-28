@@ -67,7 +67,8 @@ class PembayaranController extends Controller
     ->whereHas('penyewaan', function ($q) use ($penyewaId) {
         $q->where('penyewa_id', $penyewaId);
     })
-    ->orderByDesc('created_at')
+    ->where('status_bayar', 'paid')   // Hanya tampilkan yang sudah lunas
+    ->orderByDesc('tanggal_bayar')
     ->get();
 
     return response()->json([
@@ -127,15 +128,17 @@ public function admin()
 public function riwayat()
 {
 
-        $data = Pembayaran::with('penyewaan.kamar')
-        ->latest()
-        ->get();
+         $riwayat = Pembayaran::with([
+        'penyewaan.kamar'
+    ])
+    ->where('status_bayar', 'paid')
+    ->orderByDesc('tanggal_bayar')
+    ->get();
 
     return response()->json([
-        'success' => true,
-        'data' => $data
+        'success'=>true,
+        'data'=>$riwayat
     ]);
-
 
 }
 }

@@ -389,6 +389,9 @@ public function store(Request $request)
 
         $user=$response->json()['data'];
 
+        $jatuhTempo = Carbon::parse($penyewaan->end)
+                ->addDays(7);
+
         $pembayaran = Pembayaran::create([
 
         'penyewaan_id'=>$penyewaan->id,
@@ -403,8 +406,7 @@ public function store(Request $request)
 
         'status_bayar'=>'pending',
 
-        'jatuh_tempo'=>now()->addMinutes(2)
-
+        'jatuh_tempo'=>$jatuhTempo
         ]);
 
         $orderId='ORDER-'.$pembayaran->id.'-'.time();
@@ -453,18 +455,14 @@ public function store(Request $request)
 
         $snapToken = Snap::getSnapToken($params);
 
-$pembayaran->order_id = $orderId;
-$pembayaran->snap_token = $snapToken;
-$pembayaran->save();
+        $pembayaran->order_id = $orderId;
+        $pembayaran->snap_token = $snapToken;
+        $pembayaran->save();
 
-                return response()->json([
-
+        return response()->json([
         'success'=>true,
-
         'message'=>'Silahkan lakukan pembayaran',
-
         'snap_token'=>$snapToken
-
         ]);
     }
 }
