@@ -34,12 +34,15 @@
                 <div class="mb-3">
                     <label>Type Room</label>
 
-                    <select name="type_room_id"
-                            class="form-control">
+                    <select name="type_room_id" class="form-control">
 
-                        <option value="1">Type Room 1</option>
-                        <option value="2">Type Room 2</option>
-                        <option value="3">Type Room 3</option>
+                        @foreach($typeRooms as $type)
+
+                            <option value="{{ $type['id'] }}">
+                                {{ $type['name'] }}
+                            </option>
+
+                        @endforeach
 
                     </select>
                 </div>
@@ -159,24 +162,19 @@
                             <div class="mb-3">
                                 <label>Type Room</label>
 
-                                <select
-                                    name="type_room_id"
-                                    class="form-control">
+                                <select name="type_room_id" class="form-control">
 
-                                    <option value="1"
-                                        {{ $kamar['type_room_id']==1?'selected':'' }}>
-                                        Type Room 1
+                                @foreach($typeRooms as $type)
+
+                                    <option
+                                        value="{{ $type['id'] }}"
+                                        {{ $kamar['type_room_id'] == $type['id'] ? 'selected' : '' }}>
+
+                                        {{ $type['name'] }}
+
                                     </option>
 
-                                    <option value="2"
-                                        {{ $kamar['type_room_id']==2?'selected':'' }}>
-                                        Type Room 2
-                                    </option>
-
-                                    <option value="3"
-                                        {{ $kamar['type_room_id']==3?'selected':'' }}>
-                                        Type Room 3
-                                    </option>
+                                @endforeach
 
                                 </select>
                             </div>

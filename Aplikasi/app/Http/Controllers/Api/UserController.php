@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-        // GET semua user
+    // GET : Mengambil semua user
     public function index()
     {
         $users = User::all();
@@ -20,7 +20,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    // GET user berdasarkan id
+    // GET : Mengambil user berdasarkan id
     public function show($id)
     {
         $user = User::find($id);
@@ -38,6 +38,8 @@ class UserController extends Controller
             'data' => $user
         ], 200);
     }
+
+    // Update status user
 
     public function updateStatus(Request $request, $id)
     {

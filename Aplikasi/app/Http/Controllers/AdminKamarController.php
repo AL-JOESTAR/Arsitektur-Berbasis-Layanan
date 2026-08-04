@@ -11,11 +11,29 @@ class AdminKamarController extends Controller
     // Menampilkan semua kamar
     public function adminKamar()
     {
-        $response = Http::get("http://host.docker.internal:8001/api/kamar/index");
+        // Ambil daftar kamar
+    $response = Http::get("http://host.docker.internal:8001/api/kamar/index");
 
+    $kamars = [];
+
+    if ($response->successful()) {
         $kamars = $response->json()['data'];
+    }
 
-        return view('dashboard_admin.kamar', compact('kamars'));
+    // Ambil daftar type room
+    $typeResponse = Http::get("http://host.docker.internal:8001/api/type-room");
+
+    $typeRooms = [];
+
+    if ($typeResponse->successful()) {
+        $typeRooms = $typeResponse->json()['data'];
+    }
+    
+
+    return view(
+        'dashboard_admin.kamar',
+        compact('kamars', 'typeRooms')
+    );
     }
 
     // Simpan kamar baru
@@ -23,7 +41,7 @@ class AdminKamarController extends Controller
     {
         $request->validate([
             'Nomor_Kamar' => 'required',
-            'type_room_id' => 'required|in:1,2,3',
+            'type_room_id' => 'required|integer',
             'status_kamar' => 'required'
         ]);
 
@@ -32,6 +50,7 @@ class AdminKamarController extends Controller
             'type_room_id' => $request->type_room_id,
             'status_kamar' => $request->status_kamar
         ]);
+        
 
         return back()->with('success','Kamar berhasil ditambahkan');
     }
@@ -41,7 +60,7 @@ class AdminKamarController extends Controller
     {
         $request->validate([
             'Nomor_Kamar' => 'required',
-            'type_room_id' => 'required|in:1,2,3',
+            'type_room_id' => 'required|integer',
             'status_kamar' => 'required'
         ]);
 
